@@ -87,4 +87,11 @@ public class ImageViewPager extends RelativeLayout implements
 		mPageIndicatorView.setCurrentPage(false, arg0);
 	}
 
+	public void setPagePosition(int pos) {
+		if (pos >= 0 && pos < views.size()) {
+			mViewPager.setCurrentItem(pos);
+			mPageIndicatorView.setCurrentPage(true, pos);
+		}
+	}
+
 }
