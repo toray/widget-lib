@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="custom_pager" type="id">false</item>
+    <item name="tv_title" type="id">false</item>
+    <item name="iv_content" type="id">false</item>
+
+</resources>
