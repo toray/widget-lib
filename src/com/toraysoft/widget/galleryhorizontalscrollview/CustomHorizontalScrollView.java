@@ -155,12 +155,7 @@ public class CustomHorizontalScrollView extends HorizontalScrollView implements
 
 		@Override
 		public void run() {
-			smoothScrollTo(
-					(currentPos - 1)
-							* itemWidth
-							- (int) TypedValue.applyDimension(
-									TypedValue.COMPLEX_UNIT_DIP, 10,
-									getResources().getDisplayMetrics()), 0);
+			smoothScrollTo((currentPos - 1) * itemWidth, 0);
 			removeCallbacks(this);
 		}
 
