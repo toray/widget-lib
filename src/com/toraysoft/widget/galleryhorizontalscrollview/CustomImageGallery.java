@@ -1,17 +1,19 @@
 package com.toraysoft.widget.galleryhorizontalscrollview;
 
-import com.toraysoft.widget.galleryhorizontalscrollview.CustomHorizontalScrollView.OnCustomScrollListner;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.toraysoft.widget.galleryhorizontalscrollview.CustomHorizontalScrollView.OnCustomScrollListner;
+
 public class CustomImageGallery extends LinearLayout implements
-		OnCustomScrollListner {
+		OnCustomScrollListner, OnClickListener {
 
 	private Context mContext;
 	private CustomHorizontalScrollView mCustomHorizontalScrollView;
@@ -21,6 +23,7 @@ public class CustomImageGallery extends LinearLayout implements
 	private int NORMAL_MARGIN = 20;
 	private int SELECT_MARGIN = 5;
 	private int posotion = -1;
+	private OnCustomImageGalleryClickListener mOnCustomImageGalleryClickListener;
 
 	public CustomImageGallery(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -93,6 +96,7 @@ public class CustomImageGallery extends LinearLayout implements
 		iv.setScaleType(ScaleType.FIT_XY);
 		if (!empty) {
 			iv.setImageResource(defaultImg);
+			iv.setOnClickListener(this);
 		}
 		iv.setTag(position);
 		rl.addView(iv);
@@ -147,6 +151,26 @@ public class CustomImageGallery extends LinearLayout implements
 	private void initPageIndicatorView() {
 		mPageIndicatorView.init(count - 2);
 		mPageIndicatorView.setCurrentPage(true, 0);
+	}
+
+	public interface OnCustomImageGalleryClickListener {
+		void onCustomImageGalleryClick(int pos);
+	}
+
+	public void setOnCustomImageGalleryClickListener(
+			OnCustomImageGalleryClickListener l) {
+		mOnCustomImageGalleryClickListener = l;
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (v.getTag() != null && mOnCustomImageGalleryClickListener != null) {
+			int pos = (Integer) v.getTag();
+			if (pos > 0) {
+				mOnCustomImageGalleryClickListener
+						.onCustomImageGalleryClick(pos - 1);
+			}
+		}
 	}
 
 }
