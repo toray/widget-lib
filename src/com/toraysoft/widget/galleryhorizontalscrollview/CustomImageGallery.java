@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -95,9 +94,9 @@ public class CustomImageGallery extends LinearLayout implements
 			view = views.get(loc);
 		}
 		if (position == 1) {
-			view.setLayoutParams(getImageViewBounds(SELECT_MARGIN));
+			view.setLayoutParams(getViewBounds(SELECT_MARGIN));
 		} else {
-			view.setLayoutParams(getImageViewBounds(NORMAL_MARGIN));
+			view.setLayoutParams(getViewBounds(NORMAL_MARGIN));
 		}
 		if (!empty) {
 			view.setOnClickListener(this);
@@ -107,24 +106,24 @@ public class CustomImageGallery extends LinearLayout implements
 		return rl;
 	}
 
-	private void setImageViewSize(final int pos) {
+	private void setViewSize(final int pos) {
 		mCustomHorizontalScrollView.post(new Runnable() {
 
 			@Override
 			public void run() {
-				for (int i = 0; i < 8; i++) {
-					ImageView iv = (ImageView) mLinearLayout.findViewWithTag(i);
+				for (int i = 0; i < count; i++) {
+					View iv = (View) mLinearLayout.findViewWithTag(i);
 					if (i == pos) {
-						iv.setLayoutParams(getImageViewBounds(SELECT_MARGIN));
+						iv.setLayoutParams(getViewBounds(SELECT_MARGIN));
 					} else {
-						iv.setLayoutParams(getImageViewBounds(NORMAL_MARGIN));
+						iv.setLayoutParams(getViewBounds(NORMAL_MARGIN));
 					}
 				}
 			}
 		});
 	}
 
-	private RelativeLayout.LayoutParams getImageViewBounds(int length) {
+	private RelativeLayout.LayoutParams getViewBounds(int length) {
 		RelativeLayout.LayoutParams lpv = new RelativeLayout.LayoutParams(
 				new LayoutParams(LayoutParams.MATCH_PARENT,
 						LayoutParams.MATCH_PARENT));
@@ -146,7 +145,7 @@ public class CustomImageGallery extends LinearLayout implements
 	@Override
 	public void onCustomScrollPos(int pos) {
 		if (posotion != pos) {
-			setImageViewSize(pos);
+			setViewSize(pos);
 			mPageIndicatorView.setCurrentPage(false, pos - 1);
 			posotion = pos;
 		}
