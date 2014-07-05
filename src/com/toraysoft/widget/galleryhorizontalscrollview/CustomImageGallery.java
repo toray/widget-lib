@@ -1,12 +1,13 @@
 package com.toraysoft.widget.galleryhorizontalscrollview;
 
+import java.util.List;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -19,11 +20,12 @@ public class CustomImageGallery extends LinearLayout implements
 	private CustomHorizontalScrollView mCustomHorizontalScrollView;
 	private PageIndicatorView mPageIndicatorView;
 	private LinearLayout mLinearLayout;
-	private int itemWidth, itemHeight, count, defaultImg;
+	private int itemWidth, itemHeight, count;
 	private int NORMAL_MARGIN = 20;
 	private int SELECT_MARGIN = 5;
 	private int posotion = -1;
 	private OnCustomImageGalleryClickListener mOnCustomImageGalleryClickListener;
+	private List<View> views;
 
 	public CustomImageGallery(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -35,13 +37,12 @@ public class CustomImageGallery extends LinearLayout implements
 		this.mContext = context;
 	}
 
-	public void initDatas(int itemWidth, int itemHeight, int count,
-			int defaultImg) {
+	public void initDatas(int itemWidth, int itemHeight, List<View> views) {
 		this.setOrientation(LinearLayout.VERTICAL);
 		this.itemWidth = itemWidth;
 		this.itemHeight = itemHeight;
-		this.count = count;
-		this.defaultImg = defaultImg;
+		this.views = views;
+		this.count = views.size() + 2;
 		init();
 	}
 
@@ -78,6 +79,7 @@ public class CustomImageGallery extends LinearLayout implements
 
 	private RelativeLayout getItemView(boolean empty, int position) {
 		RelativeLayout rl = new RelativeLayout(mContext);
+		View view = new View(mContext);
 		if (position == 0 || position == count - 1) {
 			LayoutParams lp = new LayoutParams(new LayoutParams(itemWidth / 2,
 					itemHeight));
@@ -86,20 +88,22 @@ public class CustomImageGallery extends LinearLayout implements
 			LayoutParams lp = new LayoutParams(new LayoutParams(itemWidth,
 					itemHeight));
 			rl.setLayoutParams(lp);
+			int loc = position - 1;
+			if (loc < 0) {
+				loc = 0;
+			}
+			view = views.get(loc);
 		}
-		ImageView iv = new ImageView(mContext);
 		if (position == 1) {
-			iv.setLayoutParams(getImageViewBounds(SELECT_MARGIN));
+			view.setLayoutParams(getImageViewBounds(SELECT_MARGIN));
 		} else {
-			iv.setLayoutParams(getImageViewBounds(NORMAL_MARGIN));
+			view.setLayoutParams(getImageViewBounds(NORMAL_MARGIN));
 		}
-		iv.setScaleType(ScaleType.FIT_XY);
 		if (!empty) {
-			iv.setImageResource(defaultImg);
-			iv.setOnClickListener(this);
+			view.setOnClickListener(this);
 		}
-		iv.setTag(position);
-		rl.addView(iv);
+		view.setTag(position);
+		rl.addView(view);
 		return rl;
 	}
 
