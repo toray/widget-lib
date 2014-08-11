@@ -2,8 +2,6 @@ package com.toraysoft.widget.galleryhorizontalscrollview;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -88,8 +86,6 @@ public class CustomHorizontalScrollView extends HorizontalScrollView implements
 		onFling = false;
 		mGestureDetector.onTouchEvent(ev);
 		if (ev.getAction() == MotionEvent.ACTION_UP && !onFling) {
-			System.out.println("ACTION_UP");
-			System.out.println("after on touch :position:" + currentPos);
 			postDelayed(new ScrollToCenter(), 50);
 		}
 		return super.onTouchEvent(ev);
@@ -136,10 +132,7 @@ public class CustomHorizontalScrollView extends HorizontalScrollView implements
 		@Override
 		public void run() {
 			removeCallbacks(this);
-			// System.out.println("oldL:" + oldL);
-			// System.out.println("lastL:" + lastL);
 			if (oldL == lastL) {
-				System.out.println("scroll stop!!!!!!!!!!!!!");
 				removeCallbacks(this);
 				System.out
 						.println("after check scroll :position:" + currentPos);
