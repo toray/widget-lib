@@ -51,4 +51,14 @@
         <attr name="textSelect" format="reference" />
         <attr name="textCancel" format="reference" />
     </declare-styleable>
+    <declare-styleable name="LocusPassWordView">
+        <attr name="locusOriginal" format="reference|color" />
+        <attr name="locusClick" format="reference|color" />
+        <attr name="locusClickError" format="reference|color" />
+        <attr name="locusLine" format="reference|color" />
+        <attr name="locusLineError" format="reference|color" />
+        <attr name="locusLineSemicircle" format="reference|color" />
+        <attr name="locusLineSemicircleError" format="reference|color" />
+        <attr name="locusArraw" format="reference|color" />
+    </declare-styleable>
 </resources>
