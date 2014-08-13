@@ -1,7 +1,9 @@
 package com.toraysoft.widget.switchbutton;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -27,6 +29,9 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 	int bg_imgId;
 	int on_imgId;
 	int off_imgId;
+	int cornerWidth;
+
+	int DEFAULT_DORNER_WIDTH = 12;
 
 	float xLast = 0;
 
@@ -39,16 +44,25 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 
 	public SwitchButton(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		cornerWidth = getCornerWidth();
 	}
 
 	public SwitchButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		cornerWidth = getCornerWidth();
 	}
 
 	public SwitchButton(Context context) {
 		super(context);
+		cornerWidth = getCornerWidth();
 	}
 
+	private int getCornerWidth() {
+		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+				DEFAULT_DORNER_WIDTH, getResources().getDisplayMetrics());
+	}
+
+	@SuppressLint("NewApi")
 	public void init(int width, int height, int sliderWidth, int sliderHeight,
 			int bgImgId, int onImgId, int offImgId) {
 		this.width = width;
@@ -72,6 +86,7 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 		tag_ImageView = new ImageView(getContext());
 		tag_ImageView.setScaleType(ScaleType.FIT_XY);
 		mLayoutParams = new LayoutParams(this.sliderWidth, this.sliderHeight);
+		mLayoutParams.setMargins(-cornerWidth, 0, 0, 0);
 		tag_ImageView.setLayoutParams(mLayoutParams);
 		tag_ImageView.setImageResource(this.off_imgId);
 		tag_ImageView.setClickable(false);
@@ -90,6 +105,7 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 			move(xLast);
 			break;
 		case MotionEvent.ACTION_UP:
+		case MotionEvent.ACTION_CANCEL:
 			xLast = event.getX();
 			int des = (int) xLast - sliderWidth / 2;
 			if (des < 0)
@@ -111,10 +127,10 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 
 	private void move(float x) {
 		int des = (int) x - sliderWidth / 2;
-		if (des < 0)
-			des = 0;
-		if (des > maxSliderWidth)
-			des = maxSliderWidth;
+		if (des < -cornerWidth)
+			des = -cornerWidth;
+		if (des > maxSliderWidth + cornerWidth)
+			des = maxSliderWidth + cornerWidth;
 		mLayoutParams.setMargins(des, 0, 0, 0);
 		tag_ImageView.setLayoutParams(mLayoutParams);
 	}
@@ -140,7 +156,7 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 
 	public void reset() {
 		mSlider = Slider.LEFT;
-		mLayoutParams.setMargins(0, 0, 0, 0);
+		mLayoutParams.setMargins(-cornerWidth, 0, 0, 0);
 	}
 
 	class FlingRunnable implements Runnable {
@@ -165,7 +181,7 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 			if (isMoveLeft) {
 				distance -= step;
 				if ((distance - sliderWidth / 2) < 0) {
-					mLayoutParams.setMargins(0, 0, 0, 0);
+					mLayoutParams.setMargins(-cornerWidth, 0, 0, 0);
 					tag_ImageView.setLayoutParams(mLayoutParams);
 				} else {
 					mLayoutParams.setMargins(
@@ -176,7 +192,8 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 			} else {
 				distance += step;
 				if ((distance - sliderWidth / 2) > maxSliderWidth) {
-					mLayoutParams.setMargins(maxSliderWidth, 0, 0, 0);
+					mLayoutParams.setMargins(maxSliderWidth + cornerWidth, 0,
+							-cornerWidth, 0);
 					tag_ImageView.setLayoutParams(mLayoutParams);
 				} else {
 					mLayoutParams.setMargins(
