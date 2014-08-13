@@ -15,7 +15,7 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 
 	GestureDetector mDetector;
 
-	ImageView bg_ImageView, tag_ImageView;
+	ImageView bg_ImageView, tag_ImageView, mask_ImageView;
 	LayoutParams mLayoutParams;
 
 	FlingRunnable mFlinger;
@@ -29,6 +29,7 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 	int bg_imgId;
 	int on_imgId;
 	int off_imgId;
+	int mask_imgId;
 	int cornerWidth;
 
 	int DEFAULT_DORNER_WIDTH = 12;
@@ -64,7 +65,7 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 
 	@SuppressLint("NewApi")
 	public void init(int width, int height, int sliderWidth, int sliderHeight,
-			int bgImgId, int onImgId, int offImgId) {
+			int bgImgId, int onImgId, int offImgId, int maskImgId) {
 		this.width = width;
 		this.height = height;
 		this.sliderWidth = sliderWidth;
@@ -74,6 +75,7 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 		this.bg_imgId = bgImgId;
 		this.on_imgId = onImgId;
 		this.off_imgId = offImgId;
+		this.mask_imgId = maskImgId;
 		setLayoutParams(new LayoutParams(width, height));
 
 		bg_ImageView = new ImageView(getContext());
@@ -91,6 +93,13 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 		tag_ImageView.setImageResource(this.off_imgId);
 		tag_ImageView.setClickable(false);
 		this.addView(tag_ImageView);
+		
+		mask_ImageView = new ImageView(getContext());
+		mask_ImageView.setLayoutParams(new LayoutParams(width, height));
+		mask_ImageView.setScaleType(ScaleType.FIT_XY);
+		mask_ImageView.setImageResource(this.mask_imgId);
+		mask_ImageView.setClickable(false);
+		this.addView(mask_ImageView);
 
 		mDetector = new GestureDetector(getContext(), this);
 		mDetector.setIsLongpressEnabled(false);
