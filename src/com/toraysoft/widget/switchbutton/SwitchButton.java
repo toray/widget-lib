@@ -159,6 +159,19 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 		mLayoutParams.setMargins(-cornerWidth, 0, 0, 0);
 	}
 
+	public void setBtnState(Slider type) {
+		if (type == Slider.LEFT) {
+			mSlider = Slider.LEFT;
+			mLayoutParams.setMargins(-cornerWidth, 0, 0, 0);
+			tag_ImageView.setImageResource(off_imgId);
+		} else if (type == Slider.RIGHT) {
+			mSlider = Slider.RIGHT;
+			mLayoutParams.setMargins(maxSliderWidth + cornerWidth, 0,
+					-cornerWidth, 0);
+			tag_ImageView.setImageResource(on_imgId);
+		}
+	}
+
 	class FlingRunnable implements Runnable {
 		protected int step = 10;
 		protected boolean isMoveLeft = true;
