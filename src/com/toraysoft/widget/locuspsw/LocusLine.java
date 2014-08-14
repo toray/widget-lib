@@ -7,11 +7,11 @@ public class LocusLine{
 	Context mContext;
 	Drawable mDrawable;
 	
-	int w;
+	int h;
 	
-	public LocusLine(Context context,int resId,int width){
+	public LocusLine(Context context,int resId,int height){
 		this.mContext = context;
-		this.w = width;
+		this.h = height;
 		
 		mDrawable = mContext.getResources().getDrawable(resId);
 	}

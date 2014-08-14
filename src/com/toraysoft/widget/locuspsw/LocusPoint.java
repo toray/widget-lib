@@ -9,7 +9,7 @@ public class LocusPoint {
 	Drawable mDrawableClick;
 	float w,h;
 	float x,y;
-	int index;
+	int key;
 	
 	public static int STATE_NORMAL = 0; 
 	public static int STATE_CHECK = 1; 
@@ -17,11 +17,11 @@ public class LocusPoint {
 	int state = STATE_NORMAL;
 	
 	public LocusPoint(Context context,int defaultId,
-						int clickId,int width,int height,int index){
+						int clickId,int width,int height,int key){
 		this.mContext = context;
 		this.w = width;
 		this.h = height;
-		this.index = index;
+		this.key = key;
 		
 		mDrawableDefault = mContext.getResources().getDrawable(defaultId);
 		mDrawableDefault.setBounds(0, 0, width, height);

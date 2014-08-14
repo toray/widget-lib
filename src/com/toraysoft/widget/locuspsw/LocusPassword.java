@@ -28,7 +28,7 @@ public class LocusPassword extends View {
 
 	static final int CLEAR_TIME = 0;
 
-	OnCompleteListener mCompleteListener;
+	OnLocusCompleteListener mLocusCompleteListener;
 
 	public LocusPassword(Context context) {
 		super(context);
@@ -68,28 +68,36 @@ public class LocusPassword extends View {
 				tp = p;
 			}
 			if (isMovingNoPoint) {
-				drawLine(canvas, tp, moveingX, moveingY);
+				drawLine(canvas, tp, moveingX-tp.w/2, moveingY-tp.h/2);
 			}
 		}
 
 		int w = this.getWidth();
-		float t = 0;
-		for (int i = 0; i < mPoints.length; i++) {
+		int h = this.getHeight();
+		float lt = 0;
+		float tt = 0;
+		if(mPoints.length>0){
 			int l = 0;
-			for (int j = 0; j < mPoints[i].length; j++) {
-				l += mPoints[i][j].w;
-				if (j < mPoints[i].length - 1)
+			for (int j = 0; j < mPoints[0].length; j++) {
+				l += mPoints[0][j].w;
+				if (j < mPoints[0].length - 1)
 					l += pointPadding;
 			}
-			t = ((float) w - l) / 2;
-			break;
+			lt = ((float) w - l) / 2;
+			int t = 0;
+			for (int j = 0; j < mPoints.length; j++) {
+				t += mPoints[j][0].h;
+				if (j < mPoints[j].length - 1)
+					t += pointPadding;
+			}
+			tt = ((float) h - t) / 2;
 		}
 		for (int i = 0; i < mPoints.length; i++) {
 			for (int j = 0; j < mPoints[i].length; j++) {
 				LocusPoint p = mPoints[i][j];
 				canvas.save();
-				p.x = (p.w + pointPadding) * j + t;
-				p.y = (p.h + pointPadding) * i;
+				p.x = (p.w + pointPadding) * j + lt;
+				p.y = (p.h + pointPadding) * i+tt;
 				canvas.translate(p.x, p.y);
 				if (p.state == LocusPoint.STATE_CHECK) {
 					p.mDrawableClick.draw(canvas);
@@ -118,6 +126,9 @@ public class LocusPassword extends View {
 			p = checkSelectPoint(ex, ey);
 			if (p != null) {
 				isChecking = true;
+				if (mLocusCompleteListener != null) {
+					mLocusCompleteListener.onLocusStart();
+				}
 			}
 			break;
 		case MotionEvent.ACTION_MOVE:
@@ -131,7 +142,7 @@ public class LocusPassword extends View {
 			}
 			break;
 		case MotionEvent.ACTION_UP:
-			p = checkSelectPoint(ex, ey);
+//			p = checkSelectPoint(ex, ey);
 			isChecking = false;
 			isFinish = true;
 			break;
@@ -148,17 +159,18 @@ public class LocusPassword extends View {
 			}
 		}
 		if (isFinish) {
-			if (this.sPoints.size() == 1) {
-				this.reset();
-			} else if (this.sPoints.size() < pswMinLength
+//			if (this.sPoints.size() == 1) {
+//				this.reset();
+//			} else 
+			if (this.sPoints.size() < pswMinLength
 					&& this.sPoints.size() > 0) {
-				if (mCompleteListener != null) {
-					mCompleteListener.onError("密码太短,请重新输入");
+				if (mLocusCompleteListener != null) {
+					mLocusCompleteListener.onLocusError("密码太短,请重新输入");
 				}
-			} else if (mCompleteListener != null) {
+			} else if (mLocusCompleteListener != null) {
 				if (this.sPoints.size() >= pswMinLength) {
 					// isTouch = false;
-					mCompleteListener.onComplete(toPointString());
+					mLocusCompleteListener.onLocusComplete(toPointString());
 				}
 
 			}
@@ -187,13 +199,13 @@ public class LocusPassword extends View {
 		canvas.save();
 		float ah = (float) MathTools.distance(ax, ay, bx, by);
 		float degrees = getDegrees(a, x, y);
-		float tw = ((float) mLocusLine.w) / 2
+		float tw = ((float) mLocusLine.h) / 2
 				* (float) Math.sin(degrees * Math.PI / 180);
-		float th = ((float) mLocusLine.w) / 2
+		float th = ((float) mLocusLine.h) / 2
 				* (float) Math.cos(degrees * Math.PI / 180);
 		canvas.translate(a.x + a.w / 2 + tw, a.y + a.h / 2 - th);
 		canvas.rotate(degrees);
-		mLocusLine.mDrawable.setBounds(0, 0, (int) ah, mLocusLine.w);
+		mLocusLine.mDrawable.setBounds(0, 0, (int) ah, mLocusLine.h);
 		mLocusLine.mDrawable.draw(canvas);
 		canvas.restore();
 	}
@@ -301,7 +313,7 @@ public class LocusPassword extends View {
 		for (int i = 0; i < mPoints.length; i++) {
 			for (int j = 0; j < mPoints[i].length; j++) {
 				LocusPoint p = mPoints[i][j];
-				if (x > p.x && x < (p.x + p.w) && y > p.y && y < (p.y + p.h)) {
+				if (x > p.x && x < (p.x + p.w) && y > p.y && y < (p.y + p.h) && !sPoints.contains(p)) {
 					return p;
 				}
 			}
@@ -357,11 +369,11 @@ public class LocusPassword extends View {
 	 * @return
 	 */
 	private String toPointString() {
-		if (sPoints.size() > pswMinLength) {
+		if (sPoints.size() >= pswMinLength) {
 			StringBuffer sf = new StringBuffer();
 			for (LocusPoint p : sPoints) {
 				sf.append(",");
-				sf.append(p.index);
+				sf.append(p.key);
 			}
 			return sf.deleteCharAt(0).toString();
 		} else {
@@ -372,23 +384,25 @@ public class LocusPassword extends View {
 	/**
 	 * @param mCompleteListener
 	 */
-	public void setOnCompleteListener(OnCompleteListener mCompleteListener) {
-		this.mCompleteListener = mCompleteListener;
+	public void setOnLocusCompleteListener(OnLocusCompleteListener mLocusCompleteListener) {
+		this.mLocusCompleteListener = mLocusCompleteListener;
 	}
 
 	/**
 	 * 轨迹球画完成事件
 	 * 
 	 */
-	public interface OnCompleteListener {
+	public interface OnLocusCompleteListener {
 		/**
 		 * 画完了
 		 * 
 		 * @param str
 		 */
-		public void onComplete(String password);
+		public void onLocusComplete(String password);
 
-		public void onError(String msg);
+		public void onLocusError(String msg);
+		
+		public void onLocusStart();
 	}
 	
 	static class MathTools {
