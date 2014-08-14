@@ -772,4 +772,29 @@ public class SimplePullView extends FrameLayout implements
 			getChildAt(2).setVisibility(View.GONE);
 		}
 	}
+	
+	public void setHeadBgColor(int color) {
+		if(mFirstChild != null) {
+			mFirstChild.setBackgroundColor(color);
+		}
+	}
+	
+	public void setFooterbgColor(int color) {
+		if(mLastChild != null) {
+			mLastChild.setBackgroundColor(color);
+		}
+	}
+	
+	public void setHeadTitleColor(int color) {
+		if(mUpdateTitle != null) {
+			mUpdateTitle.setTextColor(color);
+		}
+	}
+	
+	public void setFooterTitleColor(int color) {
+		if(mLoadMoreTitle != null) {
+			mLoadMoreTitle.setTextColor(color);
+		}
+	}
+	
 }
