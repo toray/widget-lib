@@ -146,7 +146,7 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 			des = -cornerWidth;
 		if (des > maxSliderWidth + cornerWidth)
 			des = maxSliderWidth + cornerWidth;
-		mLayoutParams.setMargins(des, 0, 0, 0);
+		mLayoutParams.setMargins(des, 0, -cornerWidth, 0);
 		tag_ImageView.setLayoutParams(mLayoutParams);
 	}
 
