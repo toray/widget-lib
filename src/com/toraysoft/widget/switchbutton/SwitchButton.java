@@ -32,7 +32,7 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 	int mask_imgId;
 	int cornerWidth;
 
-	int DEFAULT_DORNER_WIDTH = 12;
+	int DEFAULT_CORNER_WIDTH = 15;
 
 	float xLast = 0;
 
@@ -60,7 +60,7 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 
 	private int getCornerWidth() {
 		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-				DEFAULT_DORNER_WIDTH, getResources().getDisplayMetrics());
+				DEFAULT_CORNER_WIDTH, getResources().getDisplayMetrics());
 	}
 
 	@SuppressLint("NewApi")
@@ -105,6 +105,12 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 		mDetector.setIsLongpressEnabled(false);
 		mFlinger = new FlingRunnable();
 	}
+	
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		getParent().requestDisallowInterceptTouchEvent(true);
+		return super.dispatchTouchEvent(ev);
+	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -140,7 +146,7 @@ public class SwitchButton extends RelativeLayout implements OnGestureListener {
 			des = -cornerWidth;
 		if (des > maxSliderWidth + cornerWidth)
 			des = maxSliderWidth + cornerWidth;
-		mLayoutParams.setMargins(des, 0, 0, 0);
+		mLayoutParams.setMargins(des, 0, -cornerWidth, 0);
 		tag_ImageView.setLayoutParams(mLayoutParams);
 	}
 
