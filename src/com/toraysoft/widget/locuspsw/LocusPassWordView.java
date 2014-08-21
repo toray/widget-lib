@@ -758,7 +758,7 @@ public class LocusPassWordView extends View {
 	
 	static class RoundTools {
 		/**
-		 * 点在圆肉
+		 * 点在圆内
 		 * 
 		 * @param sx
 		 * @param sy

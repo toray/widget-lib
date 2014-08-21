@@ -12,11 +12,14 @@ import android.view.View;
 
 public class LocusPassword extends View {
 
+	LocusTips mLocusTips;
 	List<LocusPoint> sPoints;
 	LocusPoint[][] mPoints;
 	LocusLine mLocusLine;
 	int pointPadding;
 	int pswMinLength = 4;
+	float lt = 0f;
+	float tt = 0f;
 
 	Paint mPaint;
 
@@ -28,6 +31,7 @@ public class LocusPassword extends View {
 
 	static final int CLEAR_TIME = 0;
 
+	OnLocusDrawListener mOnLocusDrawListener;
 	OnLocusCompleteListener mLocusCompleteListener;
 
 	public LocusPassword(Context context) {
@@ -40,10 +44,10 @@ public class LocusPassword extends View {
 		init();
 	}
 
-	public LocusPassword(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		init();
-	}
+//	public LocusPassword(Context context, AttributeSet attrs, int defStyle) {
+//		super(context, attrs, defStyle);
+//		init();
+//	}
 
 	void init() {
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -60,6 +64,8 @@ public class LocusPassword extends View {
 
 	@Override
 	public void onDraw(Canvas canvas) {
+		if(mPoints==null)
+			return;
 		if (sPoints.size() > 0) {
 			LocusPoint tp = sPoints.get(0);
 			for (int i = 1; i < sPoints.size(); i++) {
@@ -74,9 +80,7 @@ public class LocusPassword extends View {
 
 		int w = this.getWidth();
 		int h = this.getHeight();
-		float lt = 0;
-		float tt = 0;
-		if(mPoints.length>0){
+		if(mPoints.length>0 && lt==0 && tt==0){
 			int l = 0;
 			for (int j = 0; j < mPoints[0].length; j++) {
 				l += mPoints[0][j].w;
@@ -91,6 +95,8 @@ public class LocusPassword extends View {
 					t += pointPadding;
 			}
 			tt = ((float) h - t) / 2;
+			if(mOnLocusDrawListener!=null)
+				mOnLocusDrawListener.onLocusTop((int)(tt-pointPadding));
 		}
 		for (int i = 0; i < mPoints.length; i++) {
 			for (int j = 0; j < mPoints[i].length; j++) {
@@ -380,12 +386,24 @@ public class LocusPassword extends View {
 			return "";
 		}
 	}
+	
+	public void setTouchEnable(boolean isTouch) {
+		this.isTouch = isTouch;
+	}
+	
+	public void setOnLocusDrawListener(OnLocusDrawListener l) {
+		this.mOnLocusDrawListener = l;
+	}
 
 	/**
 	 * @param mCompleteListener
 	 */
 	public void setOnLocusCompleteListener(OnLocusCompleteListener mLocusCompleteListener) {
 		this.mLocusCompleteListener = mLocusCompleteListener;
+	}
+	
+	public interface OnLocusDrawListener{
+		public void onLocusTop(int top);
 	}
 
 	/**
@@ -403,6 +421,7 @@ public class LocusPassword extends View {
 		public void onLocusError(String msg);
 		
 		public void onLocusStart();
+		
 	}
 	
 	static class MathTools {
