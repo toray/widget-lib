@@ -98,8 +98,10 @@ public class CustomTabView extends LinearLayout implements
 		lineCurrentColor = Color.parseColor("#37BC9B");
 		lineColor = Color.parseColor("#dedede");
 
-		textSize = getResources().getDisplayMetrics().density * 10f;
-		textViewPadding = getResources().getDisplayMetrics().density * 5f;
+//		textSize = getResources().getDisplayMetrics().density * 10f;
+//		textViewPadding = getResources().getDisplayMetrics().density * 5f;
+		textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics());
+		textViewPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 5, getResources().getDisplayMetrics());
 	}
 
 	public void setLineCurrentColor(int lineCurrentColor) {
