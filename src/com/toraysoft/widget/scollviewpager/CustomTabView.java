@@ -35,7 +35,7 @@ public class CustomTabView extends LinearLayout implements
 
 	boolean isDrawLine = false;
 
-	int offset;
+	int offset;//test
 
 	int under_line_height;
 	int under_line_margin = 0;
