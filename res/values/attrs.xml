@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	<declare-styleable name="TabView">
+        <attr name="tabItemTextSize" format="dimension" />
+        <attr name="tabItemTextColor" format="color"></attr>
+        <attr name="tabItemLineColor" format="color"></attr>
+        <attr name="tabItemLineBottomColor" format="color"></attr>
+        <attr name="tabItemBackground" format="reference|color" />
+        <attr name="tabItemLineHeight" format="dimension" />
+        <attr name="tabItemTextPadding" format="dimension" />
+    </declare-styleable>
     <declare-styleable name="CustomTabView">
         <attr name="tabTextSize" format="dimension" />
         <attr name="tabTextDefaultColor" format="color"></attr>

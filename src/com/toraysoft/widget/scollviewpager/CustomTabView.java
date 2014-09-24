@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -56,16 +55,6 @@ public class CustomTabView extends LinearLayout implements
 	}
 
 	private void init(AttributeSet attrs) {
-		// TypedArray typedArray =
-		// getContext().obtainStyledAttributes(attrs,R.styleable.CustomTabView);
-		// mSpacing = typedArray.getDimension(R.styleable.Navigationbar_spacing,
-		// 10);
-		// mCornerRadius =
-		// typedArray.getDimension(R.styleable.Navigationbar_corner_radius, 0);
-		// style =
-		// typedArray.getInteger(R.styleable.Navigationbar_background_style,
-		// STYLE_ALL);
-		// typedArray.recycle();
 		init();
 		TypedArray typedArray = getContext().obtainStyledAttributes(attrs,
 				R.styleable.CustomTabView);
