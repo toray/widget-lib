@@ -87,8 +87,8 @@ public class CustomTabView extends LinearLayout implements
 		lineCurrentColor = Color.parseColor("#37BC9B");
 		lineColor = Color.parseColor("#dedede");
 
-		textSize = getResources().getDisplayMetrics().density * 10f;
-		textViewPadding = getResources().getDisplayMetrics().density * 5f;
+		textSize = 18;
+		textViewPadding = 8;
 	}
 
 	public void setLineCurrentColor(int lineCurrentColor) {
@@ -139,7 +139,7 @@ public class CustomTabView extends LinearLayout implements
 				textview.setTextColor(textColorSelect);
 			else
 				textview.setTextColor(textColorDefault);
-			textview.setTextSize(textSize);
+			textview.setTextSize(TypedValue.COMPLEX_UNIT_DIP,textSize);
 			textview.setGravity(Gravity.CENTER);
 			textview.setPadding(0, (int) textViewPadding, 0,
 					(int) textViewPadding);
@@ -175,7 +175,7 @@ public class CustomTabView extends LinearLayout implements
 			} else {
 				tv_title.setTextColor(textColorDefault);
 			}
-			tv_title.setTextSize(textSize);
+			tv_title.setTextSize(TypedValue.COMPLEX_UNIT_DIP,textSize);
 			tv_title.setPadding(0, (int) textViewPadding, 0,
 					(int) textViewPadding);
 			tv_title.setTag(i);
