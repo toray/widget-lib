@@ -7,8 +7,10 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
+import com.toraysoft.widget.tabviewpager.TabView.OnItemChangeListener;
+
 public class TabViewPager extends LinearLayout implements
-				OnPageChangeListener{
+				OnPageChangeListener,OnItemChangeListener{
 	ViewPager mViewPager;
 	TabView mTabView;
 	
@@ -46,6 +48,7 @@ public class TabViewPager extends LinearLayout implements
 		mTabView = (TabView) getChildAt(0);
 		mViewPager = (ViewPager) getChildAt(1);
 		mViewPager.setOnPageChangeListener(this);
+		mTabView.setOnItemChangeListener(this);
 	}
 	
 
@@ -83,10 +86,10 @@ public class TabViewPager extends LinearLayout implements
 //		}
 	}
 
-//	@Override
-//	public void onItemChange(int position) {
-//		if (mViewPager == null)
-//			return;
-//		mViewPager.setCurrentItem(position);
-//	}
+	@Override
+	public void onItemChange(int position) {
+		if (mViewPager == null)
+			return;
+		mViewPager.setCurrentItem(position);
+	}
 }

@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TabItem {
+	Object key;
 	int index = -1;
 	int layoutResID;
 	String title;
@@ -16,21 +17,25 @@ public class TabItem {
 	boolean selected = false;
 	boolean isTab = true;
 
-	public TabItem(Drawable icon) {
+	public TabItem(Object key,Drawable icon) {
+		this.key = key;
 		this.icon = icon;
 	}
 	
-	public TabItem(Drawable icon,boolean isTab) {
+	public TabItem(Object key,Drawable icon,boolean isTab) {
+		this.key = key;
 		this.icon = icon;
 		this.isTab = isTab;
 	}
 	
-	public TabItem(String title, Drawable icon) {
+	public TabItem(Object key,String title, Drawable icon) {
+		this.key = key;
 		this.title = title;
 		this.icon = icon;
 	}
 
-	public TabItem(String title, Drawable icon,boolean isTab) {
+	public TabItem(Object key,String title, Drawable icon,boolean isTab) {
+		this.key = key;
 		this.title = title;
 		this.icon = icon;
 		this.isTab = isTab;
@@ -52,7 +57,7 @@ public class TabItem {
 		}
 	}
 	
-	public String getTitle() {
-		return title;
+	public Object getKey() {
+		return key;
 	}
 }

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.toraysoft.widget.R;
+import com.toraysoft.widget.scollviewpager.CustomTabView.OnItemChangeListener;
 
 public class TabView extends LinearLayout implements OnClickListener {
 
@@ -29,8 +30,9 @@ public class TabView extends LinearLayout implements OnClickListener {
 	int count;
 	int width;
 	boolean isDrawLine;
-	
 	int offset;
+	
+	OnItemChangeListener mOnItemChangeListener;
 
 	public TabView(Context context) {
 		super(context);
@@ -66,7 +68,13 @@ public class TabView extends LinearLayout implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		
+		if (v.getTag() == null)
+			return;
+		int position = (Integer) v.getTag();
+		setCurrentItem(position);
+		if (mOnItemChangeListener != null) {
+			mOnItemChangeListener.onItemChange(position);
+		}
 	}
 	
 	protected void setTabs(String[] tabs) {
@@ -178,5 +186,13 @@ public class TabView extends LinearLayout implements OnClickListener {
 		setUnderLine();
 		if (line_current != null)
 			setLineOffset(offset);
+	}
+	
+	public void setOnItemChangeListener(OnItemChangeListener l) {
+		this.mOnItemChangeListener = l;
+	}
+	
+	public interface OnItemChangeListener {
+		public void onItemChange(int position);
 	}
 }

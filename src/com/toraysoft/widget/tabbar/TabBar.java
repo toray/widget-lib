@@ -118,6 +118,8 @@ public class TabBar extends LinearLayout implements OnClickListener,OnPageChange
 			TabItem item = items.get(i);
 			if(position==i){
 				item.setSelect(true);
+				if(mOnTabItemSelectListener!=null)
+					mOnTabItemSelectListener.onSelect(item);
 			}else{
 				item.setSelect(false);
 			}
