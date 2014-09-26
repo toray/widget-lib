@@ -25,6 +25,8 @@ public class ClickMoreTextView extends LinearLayout implements OnClickListener {
 	private String spread;
 	private int mState;
 	private boolean flag;
+	
+	OnClickMoreCallback mOnClickMoreCallback = null;
 
 	public ClickMoreTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -64,6 +66,9 @@ public class ClickMoreTextView extends LinearLayout implements OnClickListener {
 	public void onClick(View v) {
 		flag = false;
 		requestLayout();
+		if(mOnClickMoreCallback!=null){
+			mOnClickMoreCallback.onClickMore();
+		}
 	}
 
 	public final void setDesc(String txt) {
@@ -104,5 +109,13 @@ public class ClickMoreTextView extends LinearLayout implements OnClickListener {
 				mState = COLLAPSIBLE_STATE_SPREAD;
 			}
 		}
+	}
+	
+	public interface OnClickMoreCallback{
+		void onClickMore();
+	}
+	
+	public void setOnClickMoreCallback(OnClickMoreCallback l){
+		this.mOnClickMoreCallback=l;
 	}
 }
