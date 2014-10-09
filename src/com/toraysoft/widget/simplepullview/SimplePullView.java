@@ -48,6 +48,7 @@ public class SimplePullView extends FrameLayout implements
 	private FrameLayout mLoadMoreContent;
 	private OnRefreshListioner mRefreshListioner;
 	private boolean isShowHead = true;
+	private boolean hasRefresh = true;
 	private boolean hasMore = false;
 	private boolean listviewDoScroll = false;
 	private boolean isFirstLoading = false;
@@ -159,6 +160,9 @@ public class SimplePullView extends FrameLayout implements
 				removeCallbacks(this);
 				if (mState == SCROLL_TO_CLOSE) {
 					mState = -1;
+				}
+				if(!hasRefresh && mState==STATE_REFRESH){
+					onRefreshComplete();
 				}
 			}
 		}
@@ -762,6 +766,15 @@ public class SimplePullView extends FrameLayout implements
 	
 	public void setShowHead(boolean isShowHead){
 		this.isShowHead = isShowHead;
+	}
+	
+	public void setHasRefresh(boolean hasRefresh) {
+		this.hasRefresh = hasRefresh;
+		if(hasRefresh){
+			mFirstChild.setVisibility(VISIBLE);
+		}else{
+			mFirstChild.setVisibility(INVISIBLE);
+		}
 	}
 	
 	public void setHasMore(boolean hasMore) {
