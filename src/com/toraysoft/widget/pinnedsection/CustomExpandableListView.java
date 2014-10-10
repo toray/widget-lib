@@ -12,16 +12,13 @@ import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.View.MeasureSpec;
 import android.widget.AbsListView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ListAdapter;
 import android.widget.SectionIndexer;
-import android.widget.AbsListView.LayoutParams;
 
 import com.toraysoft.widget.pinnedsection.PinnedSectionListConnector.PositionMetadata;
-import com.toraysoft.widget.pinnedsection.PinnedSectionListView.PinnedSection;
 
 public class CustomExpandableListView extends ExpandableListView {
 

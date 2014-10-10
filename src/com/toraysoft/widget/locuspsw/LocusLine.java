@@ -1,6 +1,5 @@
 package com.toraysoft.widget.locuspsw;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 

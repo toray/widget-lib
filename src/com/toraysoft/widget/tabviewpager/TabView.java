@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.toraysoft.widget.R;
-import com.toraysoft.widget.scollviewpager.CustomTabView.OnItemChangeListener;
 
 public class TabView extends LinearLayout implements OnClickListener {
 

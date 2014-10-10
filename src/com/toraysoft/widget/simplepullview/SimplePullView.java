@@ -1,8 +1,6 @@
 package com.toraysoft.widget.simplepullview;
 
 
-import com.toraysoft.widget.R;
-
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -21,6 +19,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Scroller;
 import android.widget.TextView;
+
+import com.toraysoft.widget.R;
 
 public class SimplePullView extends FrameLayout implements
 		GestureDetector.OnGestureListener{

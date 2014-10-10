@@ -1,17 +1,8 @@
 package com.toraysoft.widget.slider;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.Gravity;
-import android.view.MotionEvent;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class SliderLayout extends RelativeLayout {
 //implements OnGestureListener{

@@ -1,13 +1,13 @@
 package com.toraysoft.widget.simple;
 
-import com.toraysoft.widget.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+
+import com.toraysoft.widget.R;
 
 public class SpeechButton extends Button {
 	
