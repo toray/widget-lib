@@ -1,6 +1,5 @@
 package com.toraysoft.widget.simplepullview;
 
-
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -23,9 +22,9 @@ import android.widget.TextView;
 import com.toraysoft.widget.R;
 
 public class SimplePullView extends FrameLayout implements
-		GestureDetector.OnGestureListener{
+		GestureDetector.OnGestureListener {
 	String TAG = "SimplePullView";
-	
+
 	private ImageView mUpdateArrow;
 	private ImageView mLoadMoreArrow;
 	private String mDate;
@@ -53,7 +52,7 @@ public class SimplePullView extends FrameLayout implements
 	private boolean listviewDoScroll = false;
 	private boolean isFirstLoading = false;
 	private boolean mLongPressing;//
-	private boolean mPendingRemoved = false;// 
+	private boolean mPendingRemoved = false;//
 	private String pulldowntorefresh;
 	private String releasetorefresh;
 	private String pulluptoload;
@@ -65,13 +64,13 @@ public class SimplePullView extends FrameLayout implements
 	private CheckForLongPress mPendingCheckForLongPress = new CheckForLongPress();
 	private CheckForLongPress2 mPendingCheckForLongPress2 = new CheckForLongPress2();
 	private float lastY;
-	
+
 	private float xDistance = 0;
 	private float yDistance = 0;
 	private float xLast = 0;
 	private float yLast = 0;
 	private boolean isHandler = false;
-	
+
 	public static int MAX_LENGHT = 0;
 	public static final int STATE_REFRESH = 1;
 	public static final int STATE_LOADMORE = 10;
@@ -83,38 +82,41 @@ public class SimplePullView extends FrameLayout implements
 	private static final int REFRESHDELAY = 300;
 	private Animation mAnimationDown;
 	private Animation mAnimationUp;
-	
-	
+
 	private AnimationListener mAnimationDownListener = new AnimationListener() {
-		
+
 		@Override
-		public void onAnimationStart(Animation animation) {}
-		
+		public void onAnimationStart(Animation animation) {
+		}
+
 		@Override
-		public void onAnimationRepeat(Animation animation) {}
-		
+		public void onAnimationRepeat(Animation animation) {
+		}
+
 		@Override
 		public void onAnimationEnd(Animation animation) {
 			mUpdateArrow.setImageResource(R.drawable.arrow_up);
 			mLoadMoreArrow.setImageResource(R.drawable.arrow_down);
 		}
 	};
-	
+
 	private AnimationListener mAnimationUpListener = new AnimationListener() {
-		
+
 		@Override
-		public void onAnimationStart(Animation animation) {}
-		
+		public void onAnimationStart(Animation animation) {
+		}
+
 		@Override
-		public void onAnimationRepeat(Animation animation) {}
-		
+		public void onAnimationRepeat(Animation animation) {
+		}
+
 		@Override
 		public void onAnimationEnd(Animation animation) {
 			mUpdateArrow.setImageResource(R.drawable.arrow_down);
 			mLoadMoreArrow.setImageResource(R.drawable.arrow_up);
 		}
 	};
-	
+
 	private class CheckForLongPress implements Runnable {
 		public void run() {
 			if (mListView.getOnItemLongClickListener() == null) {
@@ -127,16 +129,16 @@ public class SimplePullView extends FrameLayout implements
 	private class CheckForLongPress2 implements Runnable {
 		public void run() {
 			mLongPressing = true;
-			MotionEvent e = MotionEvent.obtain(downEvent.getDownTime(),
+			MotionEvent e = MotionEvent.obtain(
+					downEvent.getDownTime(),
 					downEvent.getEventTime()
 							+ ViewConfiguration.getLongPressTimeout(),
-					MotionEvent.ACTION_CANCEL, downEvent.getX(), downEvent
-							.getY(), downEvent.getMetaState());
+					MotionEvent.ACTION_CANCEL, downEvent.getX(),
+					downEvent.getY(), downEvent.getMetaState());
 			SimplePullView.super.dispatchTouchEvent(e);
 		}
 	}
-	
-	
+
 	class FlingRunnable implements Runnable {
 
 		private void startCommon() {
@@ -148,9 +150,9 @@ public class SimplePullView extends FrameLayout implements
 			int curY = mScroller.getCurrY();
 			int deltaY = curY - mLastFlingY;
 			if (noFinish) {
-				if(mState==SCROLL_TO_REFRESH)
+				if (mState == SCROLL_TO_REFRESH)
 					move(deltaY, true);
-				else if(mState==SCROLL_TO_LOADMORE)
+				else if (mState == SCROLL_TO_LOADMORE)
 					moveUp(deltaY, true);
 				else
 					move(deltaY, true);
@@ -161,7 +163,7 @@ public class SimplePullView extends FrameLayout implements
 				if (mState == SCROLL_TO_CLOSE) {
 					mState = -1;
 				}
-				if(!hasRefresh && mState==STATE_REFRESH){
+				if (!hasRefresh && mState == STATE_REFRESH) {
 					onRefreshComplete();
 				}
 			}
@@ -183,7 +185,7 @@ public class SimplePullView extends FrameLayout implements
 			mScroller = new Scroller(getContext());
 		}
 	}
-	
+
 	class FlingLoadMoreRunnable implements Runnable {
 
 		private void startCommon() {
@@ -203,7 +205,7 @@ public class SimplePullView extends FrameLayout implements
 				if (mState == SCROLL_TO_CLOSE) {
 					mState = -1;
 				}
-				if(!hasMore && mState==STATE_LOADMORE){
+				if (!hasMore && mState == STATE_LOADMORE) {
 					onLoadMoreComplete();
 				}
 			}
@@ -225,14 +227,13 @@ public class SimplePullView extends FrameLayout implements
 			mScroller = new Scroller(getContext());
 		}
 	}
-	
+
 	public interface OnRefreshListioner {
 		public abstract void onRefresh();
 
 		public abstract void onLoadMore();
 	}
-	
-	
+
 	public SimplePullView(Context context) {
 		super(context);
 		mDetector = new GestureDetector(context, this);
@@ -244,13 +245,13 @@ public class SimplePullView extends FrameLayout implements
 
 	public SimplePullView(Context context, AttributeSet att) {
 		super(context, att);
-		mDetector = new GestureDetector(context,this);
+		mDetector = new GestureDetector(context, this);
 		mFlinger = new FlingRunnable();
 		mFlingLoadMore = new FlingLoadMoreRunnable();
 		init();
 		addRefreshBar();
 	}
-	
+
 	private void addRefreshBar() {
 		View view = LayoutInflater.from(getContext()).inflate(
 				R.layout.refresh_bar2, null);
@@ -258,77 +259,81 @@ public class SimplePullView extends FrameLayout implements
 		mFirstChild = (LinearLayout) view;
 		mUpdateArrow = (ImageView) view.findViewById(R.id.iv_arrow);
 		mUpdateProgressBar = (ProgressBar) view.findViewById(R.id.pb_loading);
-//		mUpdateContent = (FrameLayout) view.findViewById(
-//				R.id.iv_content);
-//
-//		mUpdateArrow = new ImageView(getContext());
-//		FrameLayout.LayoutParams layoutparams = new FrameLayout.LayoutParams(
-//				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-//		mUpdateArrow.setScaleType(ImageView.ScaleType.FIT_CENTER);
-//		mUpdateArrow.setLayoutParams(layoutparams);
+		// mUpdateContent = (FrameLayout) view.findViewById(
+		// R.id.iv_content);
+		//
+		// mUpdateArrow = new ImageView(getContext());
+		// FrameLayout.LayoutParams layoutparams = new FrameLayout.LayoutParams(
+		// LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		// mUpdateArrow.setScaleType(ImageView.ScaleType.FIT_CENTER);
+		// mUpdateArrow.setLayoutParams(layoutparams);
 		mUpdateArrow.setImageResource(R.drawable.arrow_down);
-//
-//		mUpdateContent.addView(mUpdateArrow);
-//
-//		FrameLayout.LayoutParams layoutparams1 = new FrameLayout.LayoutParams(
-//				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-//		layoutparams1.gravity = Gravity.CENTER;
-//		mUpdateProgressBar = new ProgressBar(getContext(), null,
-//				android.R.attr.progressBarStyleSmallInverse);
-//		mUpdateProgressBar.setIndeterminate(false);
-//		int i = getResources().getDimensionPixelSize(R.dimen.updatebar_padding);
-//		mUpdateProgressBar.setPadding(i, i, i, i);
-//		mUpdateProgressBar.setLayoutParams(layoutparams1);
-//
-//		mUpdateContent.addView(mUpdateProgressBar);
+		//
+		// mUpdateContent.addView(mUpdateArrow);
+		//
+		// FrameLayout.LayoutParams layoutparams1 = new
+		// FrameLayout.LayoutParams(
+		// LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		// layoutparams1.gravity = Gravity.CENTER;
+		// mUpdateProgressBar = new ProgressBar(getContext(), null,
+		// android.R.attr.progressBarStyleSmallInverse);
+		// mUpdateProgressBar.setIndeterminate(false);
+		// int i =
+		// getResources().getDimensionPixelSize(R.dimen.updatebar_padding);
+		// mUpdateProgressBar.setPadding(i, i, i, i);
+		// mUpdateProgressBar.setLayoutParams(layoutparams1);
+		//
+		// mUpdateContent.addView(mUpdateProgressBar);
 
 		mUpdateTitle = (TextView) findViewById(R.id.tv_title);
 	}
-	
-	private void addLoadMoreBar(){
+
+	private void addLoadMoreBar() {
 		View view = LayoutInflater.from(getContext()).inflate(
 				R.layout.loadmore_bar2, null);
 		addView(view);
 		mLastChild = (LinearLayout) view;
 		mLoadMoreArrow = (ImageView) view.findViewById(R.id.iv_arrow);
 		mLoadMoreProgressBar = (ProgressBar) view.findViewById(R.id.pb_loading);
-//		mLoadMoreContent = (FrameLayout) view.findViewById(
-//				R.id.iv_content);
-//
-//		mLoadMoreArrow = new ImageView(getContext());
-//		FrameLayout.LayoutParams layoutparams = new FrameLayout.LayoutParams(
-//				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-//		mLoadMoreArrow.setScaleType(ImageView.ScaleType.FIT_CENTER);
-//		mLoadMoreArrow.setLayoutParams(layoutparams);
+		// mLoadMoreContent = (FrameLayout) view.findViewById(
+		// R.id.iv_content);
+		//
+		// mLoadMoreArrow = new ImageView(getContext());
+		// FrameLayout.LayoutParams layoutparams = new FrameLayout.LayoutParams(
+		// LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		// mLoadMoreArrow.setScaleType(ImageView.ScaleType.FIT_CENTER);
+		// mLoadMoreArrow.setLayoutParams(layoutparams);
 		mLoadMoreArrow.setImageResource(R.drawable.arrow_up);
-//
-//		mLoadMoreContent.addView(mLoadMoreArrow);
-//
-//		FrameLayout.LayoutParams layoutparams1 = new FrameLayout.LayoutParams(
-//				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-//		layoutparams1.gravity = Gravity.CENTER;
-//		mLoadMoreProgressBar = new ProgressBar(getContext(), null,
-//				android.R.attr.progressBarStyleSmallInverse);
-//		mLoadMoreProgressBar.setIndeterminate(false);
-//		int i = getResources().getDimensionPixelSize(R.dimen.updatebar_padding);
-//		mLoadMoreProgressBar.setPadding(i, i, i, i);
-//		mLoadMoreProgressBar.setLayoutParams(layoutparams1);
-//
-//		mLoadMoreContent.addView(mLoadMoreProgressBar);
+		//
+		// mLoadMoreContent.addView(mLoadMoreArrow);
+		//
+		// FrameLayout.LayoutParams layoutparams1 = new
+		// FrameLayout.LayoutParams(
+		// LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		// layoutparams1.gravity = Gravity.CENTER;
+		// mLoadMoreProgressBar = new ProgressBar(getContext(), null,
+		// android.R.attr.progressBarStyleSmallInverse);
+		// mLoadMoreProgressBar.setIndeterminate(false);
+		// int i =
+		// getResources().getDimensionPixelSize(R.dimen.updatebar_padding);
+		// mLoadMoreProgressBar.setPadding(i, i, i, i);
+		// mLoadMoreProgressBar.setLayoutParams(layoutparams1);
+		//
+		// mLoadMoreContent.addView(mLoadMoreProgressBar);
 
 		mLoadMoreTitle = (TextView) view.findViewById(R.id.tv_title);
-		if(!hasMore){
+		if (!hasMore) {
 			view.setVisibility(View.GONE);
 		}
 	}
-	
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		mListView = (ListView) getChildAt(1);
 		addLoadMoreBar();
 	}
-	
+
 	private void init() {
 		MAX_LENGHT = getResources().getDimensionPixelSize(
 				R.dimen.updatebar_height);// 62.0dip
@@ -337,24 +342,23 @@ public class SimplePullView extends FrameLayout implements
 		mDetector.setIsLongpressEnabled(false);
 		mPading = -MAX_LENGHT;
 		mLastTop = -MAX_LENGHT;
-		
+
 		pulldowntorefresh = getContext().getString(R.string.drop_dowm);
 		releasetorefresh = getContext().getString(R.string.release_update);
 		pulluptoload = getContext().getString(R.string.drop_up);
 		releasetoload = getContext().getString(R.string.release_loadmore);
 		loading = getContext().getText(R.string.doing_update).toString();
 		update_time = getContext().getText(R.string.update_time).toString();
-		
+
 		mAnimationUp = AnimationUtils.loadAnimation(getContext(),
 				R.anim.rotate_up);
 		mAnimationUp.setAnimationListener(mAnimationUpListener);
 		mAnimationDown = AnimationUtils.loadAnimation(getContext(),
 				R.anim.rotate_down);
 		mAnimationDown.setAnimationListener(mAnimationDownListener);
-		
+
 	}
-	
-	
+
 	private boolean move(float deltaY, boolean auto) {
 		if (deltaY > 0 && mFirstChild.getTop() == -MAX_LENGHT) {
 			mPading = -MAX_LENGHT;
@@ -410,7 +414,7 @@ public class SimplePullView extends FrameLayout implements
 		invalidate();
 		return true;
 	}
-	
+
 	private boolean moveUp(float deltaY, boolean auto) {
 		if (deltaY < 0 && mLastChild.getTop() == getMeasuredHeight()) {
 			mPading = -MAX_LENGHT;
@@ -421,7 +425,8 @@ public class SimplePullView extends FrameLayout implements
 			mListView.offsetTopAndBottom((int) -deltaY);
 			mLastChild.offsetTopAndBottom((int) -deltaY);
 			mPading = mFirstChild.getTop();
-			if (mDestPading == 0 && mLastChild.getBottom() == getMeasuredHeight()
+			if (mDestPading == 0
+					&& mLastChild.getBottom() == getMeasuredHeight()
 					&& mState == SCROLL_TO_LOADMORE) {
 				onLoadMore();
 			} else if (mDestPading == -MAX_LENGHT) {
@@ -436,8 +441,7 @@ public class SimplePullView extends FrameLayout implements
 				mListView.offsetTopAndBottom((int) -deltaY);
 				mLastChild.offsetTopAndBottom((int) -deltaY);
 				mPading = mFirstChild.getTop();
-			} 
-			else if (mState == STATE_LOADMORE && deltaY < 0
+			} else if (mState == STATE_LOADMORE && deltaY < 0
 					&& mFirstChild.getTop() <= 0) {
 				if (mFirstChild.getTop() - deltaY > 0) {
 					deltaY = mFirstChild.getTop();
@@ -463,9 +467,9 @@ public class SimplePullView extends FrameLayout implements
 		invalidate();
 		return true;
 	}
-	
+
 	private void updateView() {
-		if(!isShowHead){
+		if (!isShowHead) {
 			mFirstChild.setVisibility(INVISIBLE);
 			return;
 		}
@@ -493,22 +497,23 @@ public class SimplePullView extends FrameLayout implements
 		}
 		mLastTop = mFirstChild.getTop();
 	}
-	
+
 	private void updateViewByUp() {
 		if (mState != STATE_LOADMORE) {
 			if (mLastChild.getBottom() > getMeasuredHeight()) {
 				mLoadMoreArrow.setVisibility(View.VISIBLE);
 				mLoadMoreProgressBar.setVisibility(View.INVISIBLE);
 				mLoadMoreTitle.setText(pulluptoload);
-				if (mBottomLastTop <= getMeasuredHeight()-MAX_LENGHT && mState != SCROLL_TO_CLOSE) {
+				if (mBottomLastTop <= getMeasuredHeight() - MAX_LENGHT
+						&& mState != SCROLL_TO_CLOSE) {
 					mLoadMoreArrow.startAnimation(mAnimationUp);
 				}
 
-			} else if (mLastChild.getBottom()< getMeasuredHeight()) {
+			} else if (mLastChild.getBottom() < getMeasuredHeight()) {
 				mLoadMoreTitle.setText(releasetoload);
 				mLoadMoreProgressBar.setVisibility(View.INVISIBLE);
 				mLoadMoreArrow.setVisibility(View.VISIBLE);
-				if (mBottomLastTop >= getMeasuredHeight()-MAX_LENGHT) {
+				if (mBottomLastTop >= getMeasuredHeight() - MAX_LENGHT) {
 					mLoadMoreArrow.startAnimation(mAnimationDown);
 				}
 			}
@@ -523,21 +528,20 @@ public class SimplePullView extends FrameLayout implements
 		}
 		if (mFirstChild.getTop() > 0) {
 			scrollToUpdate();
-		}else if(mLastChild.getBottom()-getMeasuredHeight() < 0){
+		} else if (mLastChild.getBottom() - getMeasuredHeight() < 0) {
 			scrollToLoadMore();
-		}
-		else {
+		} else {
 			scrollToClose();
 		}
 		invalidate();
 		return false;
 	}
-	
+
 	private void scrollToClose() {
 		mDestPading = -MAX_LENGHT;
 		mFlinger.startUsingDistance(MAX_LENGHT, CLOSEDELAY);
 	}
-	
+
 	private void scrollLoadMoreToClose() {
 		mDestPading = MAX_LENGHT;
 		mFlingLoadMore.startUsingDistance(-MAX_LENGHT, CLOSEDELAY);
@@ -548,13 +552,14 @@ public class SimplePullView extends FrameLayout implements
 		mDestPading = 0;
 		mFlinger.startUsingDistance(mFirstChild.getTop(), REFRESHDELAY);
 	}
-	
+
 	private void scrollToLoadMore() {
 		mState = SCROLL_TO_LOADMORE;
 		mDestPading = 0;
-		mFlingLoadMore.startUsingDistance(mLastChild.getBottom()-getMeasuredHeight(), REFRESHDELAY);
+		mFlingLoadMore.startUsingDistance(mLastChild.getBottom()
+				- getMeasuredHeight(), REFRESHDELAY);
 	}
-	
+
 	private void onRefresh() {
 
 		mState = STATE_REFRESH;
@@ -575,34 +580,43 @@ public class SimplePullView extends FrameLayout implements
 		onRefreshComplete(null);
 	}
 
-	public void onRefreshComplete(String date) {
-		mDate = date;
-		mState = SCROLL_TO_CLOSE;
-		mUpdateArrow.setImageResource(R.drawable.arrow_down);
-		scrollToClose();
+	public void onRefreshComplete(final String date) {
+		post(new Runnable() {
+			@Override
+			public void run() {
+				mDate = date;
+				mState = SCROLL_TO_CLOSE;
+				mUpdateArrow.setImageResource(R.drawable.arrow_down);
+				scrollToClose();
+			}
+		});
 	}
-	
-	
+
 	public void onLoadMore() {
 		mState = STATE_LOADMORE;
 		mLoadMoreTitle.setText(R.string.doing_update);
 		mLoadMoreProgressBar.setVisibility(View.VISIBLE);
 		mLoadMoreArrow.setVisibility(View.INVISIBLE);
-		if(hasMore && mRefreshListioner != null) {
+		if (hasMore && mRefreshListioner != null) {
 			mRefreshListioner.onLoadMore();
 		}
 	}
 
 	public void onLoadMoreComplete(String date) {
-		mState = SCROLL_TO_CLOSE;
-		mLoadMoreArrow.setImageResource(R.drawable.arrow_up);
-		scrollLoadMoreToClose();
+		post(new Runnable() {
+			@Override
+			public void run() {
+				mState = SCROLL_TO_CLOSE;
+				mLoadMoreArrow.setImageResource(R.drawable.arrow_up);
+				scrollLoadMoreToClose();
+			}
+		});
 	}
 
 	public void onLoadMoreComplete() {
 		onLoadMoreComplete(null);
 	}
-	
+
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent e) {
 		if (isFirstLoading) {
@@ -636,28 +650,28 @@ public class SimplePullView extends FrameLayout implements
 			break;
 		case MotionEvent.ACTION_DOWN:
 			//
-			xDistance = yDistance = 0f;  
-            xLast = e.getX();  
-            yLast = e.getY(); 
+			xDistance = yDistance = 0f;
+			xLast = e.getX();
+			yLast = e.getY();
 			downEvent = e;
 			mLongPressing = false;
-			postDelayed(mPendingCheckForLongPress, ViewConfiguration
-					.getLongPressTimeout() + 100);
+			postDelayed(mPendingCheckForLongPress,
+					ViewConfiguration.getLongPressTimeout() + 100);
 			mPendingRemoved = false;
 			super.dispatchTouchEvent(e);
 			break;
 		case MotionEvent.ACTION_MOVE:
-			float curX = e.getX();  
-            float curY = e.getY();             
-            xDistance += Math.abs(curX - xLast);  
-            yDistance += Math.abs(curY - yLast);  
-            xLast = curX;  
-            yLast = curY;  
-            if(xDistance > yDistance){  
-            	isHandler = false;
-            }else{
-            	isHandler = true;
-            }
+			float curX = e.getX();
+			float curY = e.getY();
+			xDistance += Math.abs(curX - xLast);
+			yDistance += Math.abs(curY - yLast);
+			xLast = curX;
+			yLast = curY;
+			if (xDistance > yDistance) {
+				isHandler = false;
+			} else {
+				isHandler = true;
+			}
 			float deltaY = lastY - y;
 			lastY = y;
 			if (!mPendingRemoved) {
@@ -671,8 +685,9 @@ public class SimplePullView extends FrameLayout implements
 					e2.printStackTrace();
 					return true;
 				}
-			} else if (handled && (mListView.getTop() > 0 && deltaY < 0
-					|| mListView.getBottom()<getMeasuredHeight() && deltaY > 0)) {
+			} else if (handled
+					&& (mListView.getTop() > 0 && deltaY < 0 || mListView
+							.getBottom() < getMeasuredHeight() && deltaY > 0)) {
 				e.setAction(MotionEvent.ACTION_CANCEL);
 				super.dispatchTouchEvent(e);
 			}
@@ -684,22 +699,22 @@ public class SimplePullView extends FrameLayout implements
 
 		return true;
 	}
-	
+
 	@Override
 	public boolean onDown(MotionEvent e) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean onFling(MotionEvent motionevent, MotionEvent e, float f,
 			float f1) {
 		return false;
 	}
-	
+
 	@Override
 	protected void onLayout(boolean flag, int i, int j, int k, int l) {
-//		Log.v("onLayout","i:"+i+"		j:"+j+"		k:"+k+"		l:"+l);
-//		Log.v("onLayout","mPading:"+mPading);
+		// Log.v("onLayout","i:"+i+"		j:"+j+"		k:"+k+"		l:"+l);
+		// Log.v("onLayout","mPading:"+mPading);
 		int top = mPading;
 		int w = getMeasuredWidth();
 		mFirstChild.layout(0, top, w, top + MAX_LENGHT);
@@ -707,21 +722,21 @@ public class SimplePullView extends FrameLayout implements
 		mListView.layout(0, top + MAX_LENGHT, w, h);
 		mLastChild.layout(0, h, w, h + MAX_LENGHT);
 	}
-	
+
 	@Override
 	public void onLongPress(MotionEvent e) {
 	}
-	
+
 	@Override
 	public boolean onScroll(MotionEvent curdown, MotionEvent cur, float deltaX,
 			float deltaY) {
-		if(!isHandler)
+		if (!isHandler)
 			return false;
 		deltaY = (float) ((double) deltaY * SCALE);
 		boolean handled = false;
 		boolean flag = false;
 		boolean lastFlag = false;
-		
+
 		if (mListView.getCount() == 0) {
 			flag = true;
 		} else {
@@ -731,24 +746,23 @@ public class SimplePullView extends FrameLayout implements
 				flag = true;
 			}
 		}
-		if(mListView.getCount()>0){
-			View c = mListView.getChildAt(mListView.getChildCount()-1);
-			if (mListView.getLastVisiblePosition() == mListView.getCount()-1 && c != null
-					&& c.getBottom() == getMeasuredHeight()) {
+		if (mListView.getCount() > 0) {
+			View c = mListView.getChildAt(mListView.getChildCount() - 1);
+			if (mListView.getLastVisiblePosition() == mListView.getCount() - 1
+					&& c != null && c.getBottom() == getMeasuredHeight()) {
 				lastFlag = true;
 			}
 		}
 		if (deltaY < 0F && flag || getChildAt(0).getTop() > -MAX_LENGHT) { // deltaY
 			handled = move(deltaY, false);
-		}
-		else if(deltaY>0F && lastFlag || getChildAt(2).getTop()<getMeasuredHeight()){
+		} else if (deltaY > 0F && lastFlag
+				|| getChildAt(2).getTop() < getMeasuredHeight()) {
 			handled = moveUp(deltaY, false);
-		}
-		else
+		} else
 			handled = false;
 		return handled;
 	}
-	
+
 	public void onShowPress(MotionEvent motionevent) {
 	}
 
@@ -759,55 +773,55 @@ public class SimplePullView extends FrameLayout implements
 	public void setRefreshListioner(OnRefreshListioner RefreshListioner) {
 		mRefreshListioner = RefreshListioner;
 	}
-	
-	public void setHorizontalHandler(boolean isShowHead){
+
+	public void setHorizontalHandler(boolean isShowHead) {
 		this.isShowHead = isShowHead;
 	}
-	
-	public void setShowHead(boolean isShowHead){
+
+	public void setShowHead(boolean isShowHead) {
 		this.isShowHead = isShowHead;
 	}
-	
+
 	public void setHasRefresh(boolean hasRefresh) {
 		this.hasRefresh = hasRefresh;
-		if(hasRefresh){
+		if (hasRefresh) {
 			mFirstChild.setVisibility(VISIBLE);
-		}else{
+		} else {
 			mFirstChild.setVisibility(INVISIBLE);
 		}
 	}
-	
+
 	public void setHasMore(boolean hasMore) {
 		this.hasMore = hasMore;
-		if(hasMore){
+		if (hasMore) {
 			getChildAt(2).setVisibility(View.VISIBLE);
-		}else{
+		} else {
 			getChildAt(2).setVisibility(View.GONE);
 		}
 	}
-	
+
 	public void setHeadBgColor(int color) {
-		if(mFirstChild != null) {
+		if (mFirstChild != null) {
 			mFirstChild.setBackgroundColor(color);
 		}
 	}
-	
+
 	public void setFooterbgColor(int color) {
-		if(mLastChild != null) {
+		if (mLastChild != null) {
 			mLastChild.setBackgroundColor(color);
 		}
 	}
-	
+
 	public void setHeadTitleColor(int color) {
-		if(mUpdateTitle != null) {
+		if (mUpdateTitle != null) {
 			mUpdateTitle.setTextColor(color);
 		}
 	}
-	
+
 	public void setFooterTitleColor(int color) {
-		if(mLoadMoreTitle != null) {
+		if (mLoadMoreTitle != null) {
 			mLoadMoreTitle.setTextColor(color);
 		}
 	}
-	
+
 }
