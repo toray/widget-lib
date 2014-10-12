@@ -50,7 +50,7 @@ public class TabView extends LinearLayout implements OnClickListener {
 		textSize = typedArray.getDimension(R.styleable.TabView_tabItemTextSize,
 				14);
 		textViewPadding = typedArray.getDimension(
-				R.styleable.TabView_tabItemTextPadding, 5);
+				R.styleable.TabView_tabItemTextPadding, 10);
 		textColor = typedArray.getColorStateList(R.styleable.TabView_tabItemTextColor);
 		if(textColor==null)
 			textColor = getResources().getColorStateList(R.color.tab_text_color_default);
