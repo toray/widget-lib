@@ -3,6 +3,7 @@
 
     <item name="custom_pager" type="id">false</item>
     <item name="tv_title" type="id">false</item>
+    <item name="tv_unread" type="id">false</item>
     <item name="iv_icon" type="id">false</item>
     <item name="iv_content" type="id">false</item>
     <item name="tabview" type="id">false</item>

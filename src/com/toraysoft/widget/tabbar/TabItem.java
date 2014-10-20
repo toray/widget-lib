@@ -2,6 +2,7 @@ package com.toraysoft.widget.tabbar;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,7 +14,7 @@ public class TabItem {
 	Drawable icon;
 	Bitmap thumb;
 	ImageView iv_icon;
-	TextView tv_title;
+	TextView tv_title,tv_unread;
 	boolean selected = false;
 	boolean isTab = true;
 
@@ -59,5 +60,32 @@ public class TabItem {
 	
 	public Object getKey() {
 		return key;
+	}
+	
+	public void showUnread(){
+		if(tv_unread!=null){
+			tv_unread.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	public void hideUnread(){
+		if(tv_unread!=null){
+			tv_unread.setVisibility(View.GONE);
+		}
+	}
+	
+	public void showUnread(int count){
+		if(tv_unread!=null){
+			if(count==0){
+				tv_unread.setVisibility(View.GONE);
+				return;
+			}
+			String text = String.valueOf(count);
+			if(count>99){
+				text = "99+";
+			}
+			tv_unread.setText(text);
+			tv_unread.setVisibility(View.VISIBLE);
+		}
 	}
 }

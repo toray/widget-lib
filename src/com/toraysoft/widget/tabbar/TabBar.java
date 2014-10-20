@@ -87,8 +87,10 @@ public class TabBar extends LinearLayout implements OnClickListener,OnPageChange
 		child.setTag(item);
 		ImageView iv_icon = (ImageView) child.findViewById(R.id.iv_icon);
 		TextView tv_title = (TextView) child.findViewById(R.id.tv_title);
+		TextView tv_unread = (TextView) child.findViewById(R.id.tv_unread);
 		item.iv_icon = iv_icon;
 		item.tv_title = tv_title;
+		item.tv_unread = tv_unread;
 		iv_icon.setImageDrawable(item.icon);
 		if (TextUtils.isEmpty(item.title)) {
 			tv_title.setVisibility(View.GONE);
