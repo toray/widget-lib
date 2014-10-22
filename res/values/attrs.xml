@@ -108,4 +108,10 @@
         <attr name="pw_contourColor" format="color"/>
         <attr name="pw_contourSize" format="dimension"/>
      </declare-styleable>  
+     <declare-styleable name="VipTextView">
+         <attr name="normalTextColor" format="color"></attr>
+         <attr name="vipLightTextColor" format="color"></attr>
+         <attr name="vipDeepTextColor" format="color"></attr>
+         <attr name="vipStrokeTextColor" format="color"></attr>
+     </declare-styleable>
 </resources>
