@@ -9,6 +9,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Shader.TileMode;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.rockerhieu.emojicon.EmojiconTextView;
@@ -19,6 +20,7 @@ public class VipTextView extends RelativeLayout{
 	EmojiconTextView mTextViewNormal;
 	EmojiconTextView mTextViewVip;
 	EmojiconTextView mTextViewStroke;
+	ImageView mImageViewVip;
 	int mNormalTextColor;
 	int mVipLightTextColor;
 	int mVipDeepTextColor;
@@ -46,6 +48,7 @@ public class VipTextView extends RelativeLayout{
 		mTextViewNormal = new EmojiconTextView(context, attrs);
 		mTextViewVip = new EmojiconTextView(context, attrs);
 		mTextViewStroke = new EmojiconTextView(context, attrs);
+		mImageViewVip = new ImageView(context, attrs);
 		
 		if(attrs!=null){
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.VipTextView);
@@ -60,6 +63,8 @@ public class VipTextView extends RelativeLayout{
 			a.recycle();
 		}
 		
+		mTextViewStroke.setId(R.id.viptextviewstroke);
+		
 		Paint mPaintStroke = mTextViewStroke.getPaint();
 		mPaintStroke.setStrokeWidth(2);
 		mPaintStroke.setStyle(Style.FILL_AND_STROKE);
@@ -72,12 +77,27 @@ public class VipTextView extends RelativeLayout{
 		mPaintStroke.setStyle(Style.FILL_AND_STROKE);
 		mPaintStroke.setFakeBoldText(false);
 		
+		LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+		lp.leftMargin = 5;
+		lp.addRule(RIGHT_OF,R.id.viptextviewstroke);
+		lp.addRule(CENTER_VERTICAL);
+		mImageViewVip.setLayoutParams(lp);
+		
+		LayoutParams lp2 = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+		lp.addRule(CENTER_VERTICAL);
+		mImageViewVip.setLayoutParams(lp);
+		
+		mTextViewNormal.setLayoutParams(lp2);
+		mTextViewVip.setLayoutParams(lp2);
+		mTextViewStroke.setLayoutParams(lp2);
+		
 		setVip(false);
 		
 		
 		addView(mTextViewNormal);
 		addView(mTextViewStroke);
 		addView(mTextViewVip);
+		addView(mImageViewVip);
 	}
 	
 	public void setText(CharSequence text){
@@ -98,10 +118,12 @@ public class VipTextView extends RelativeLayout{
 			mTextViewNormal.setVisibility(View.GONE);
 			mTextViewVip.setVisibility(View.VISIBLE);
 			mTextViewStroke.setVisibility(View.VISIBLE);
+			mImageViewVip.setVisibility(View.VISIBLE);
 		}else{
 			mTextViewNormal.setVisibility(View.VISIBLE);
 			mTextViewVip.setVisibility(View.GONE);
 			mTextViewStroke.setVisibility(View.GONE);
+			mImageViewVip.setVisibility(View.GONE);
 		}
 		
 	}
