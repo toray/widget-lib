@@ -14,6 +14,8 @@ public class TabViewPager extends LinearLayout implements
 	ViewPager mViewPager;
 	TabView mTabView;
 	
+	OnPageChangeListener mOnPageChangeListener;
+	
 	public TabViewPager(Context context) {
 		super(context);
 		init();
@@ -51,15 +53,19 @@ public class TabViewPager extends LinearLayout implements
 		mTabView.setOnItemChangeListener(this);
 	}
 	
+	
+	public void setOnPageChangeListener(OnPageChangeListener l) {
+		mOnPageChangeListener = l;
+	}
 
 	@Override
 	public void onPageScrollStateChanged(int state) {
 		if (mTabView != null) {
 			mTabView.onPageScrollStateChanged(state);
 		}
-//		if (mOnPageChangeListener != null) {
-//			mOnPageChangeListener.onPageScrollStateChanged(state);
-//		}
+		if (mOnPageChangeListener != null) {
+			mOnPageChangeListener.onPageScrollStateChanged(state);
+		}
 	}
 
 	@Override
@@ -69,10 +75,10 @@ public class TabViewPager extends LinearLayout implements
 			mTabView.onPageScrolled(position, positionOffset,
 					positionOffsetPixels);
 		}
-//		if (mOnPageChangeListener != null) {
-//			mOnPageChangeListener.onPageScrolled(position, positionOffset,
-//					positionOffsetPixels);
-//		}
+		if (mOnPageChangeListener != null) {
+			mOnPageChangeListener.onPageScrolled(position, positionOffset,
+					positionOffsetPixels);
+		}
 //		postInvalidate();
 	}
 
@@ -81,9 +87,9 @@ public class TabViewPager extends LinearLayout implements
 		if (mTabView != null) {
 			mTabView.onPageSelected(position);
 		}
-//		if (mOnPageChangeListener != null) {
-//			mOnPageChangeListener.onPageSelected(position);
-//		}
+		if (mOnPageChangeListener != null) {
+			mOnPageChangeListener.onPageSelected(position);
+		}
 	}
 
 	@Override
