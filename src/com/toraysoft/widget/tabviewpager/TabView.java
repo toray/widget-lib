@@ -148,6 +148,9 @@ public class TabView extends LinearLayout implements OnClickListener {
 				}
 			}
 		}
+		if(line_current==null){
+			return;
+		}
 		int offset = line_current.getWidth()
 				* currentItem;
 		setLineOffset(offset);
