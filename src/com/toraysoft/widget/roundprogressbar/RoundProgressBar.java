@@ -67,6 +67,14 @@ public class RoundProgressBar extends View {
 	public static final int FILL = 1;
 	
 	/**
+	 * 旋转的方向
+	 */
+	public int direction;
+	
+	public static final int CLOCKWISE = 0;
+	public static final int COUNTERCLOCKWISE = 1;
+	
+	/**
 	 * 是否显示百分比
 	 */
 	private boolean showPercent = false;
@@ -103,6 +111,8 @@ public class RoundProgressBar extends View {
 				R.styleable.RoundProgressBar_textIsDisplayable, true);
 		style = mTypedArray.getInt(R.styleable.RoundProgressBar_style, 0);
 		showPercent = mTypedArray.getBoolean(R.styleable.RoundProgressBar_showPercent, false);
+		
+		direction = mTypedArray.getInt(R.styleable.RoundProgressBar_direction, 0);
 
 		mTypedArray.recycle();
 	}
@@ -160,13 +170,21 @@ public class RoundProgressBar extends View {
 		switch (style) {
 		case STROKE: {
 			paint.setStyle(Paint.Style.STROKE);
-			canvas.drawArc(oval, -90, 360 * progress / max, false, paint); // 根据进度画圆弧
+			if(direction == CLOCKWISE) {
+				canvas.drawArc(oval, -90, 360 * (max - progress) / max, false, paint); // 根据进度画圆弧	
+			}else if(direction == COUNTERCLOCKWISE) {
+				canvas.drawArc(oval, -90, 360 * progress / max, false, paint); // 根据进度画圆弧	
+			}
 			break;
 		}
 		case FILL: {
 			paint.setStyle(Paint.Style.FILL_AND_STROKE);
 			if (progress != 0)
-				canvas.drawArc(oval, -90, 360 * progress / max, true, paint); // 根据进度画圆弧
+				if(direction == CLOCKWISE) {
+					canvas.drawArc(oval, -90, 360 * (max - progress) / max, true, paint); // 根据进度画圆弧	
+				}else if(direction == COUNTERCLOCKWISE) {
+					canvas.drawArc(oval, -90, 360 * progress / max, true, paint); // 根据进度画圆弧
+				}
 			break;
 		}
 		}
