@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v7.internal.view.menu.ListMenuItemView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -156,6 +155,7 @@ public class ScrollScreenLayout extends HorizontalScrollView {
 		mRightLinearLayout.addView(tv_right4);
 		mRightLinearLayout.addView(tv_right5);
 		
+		setVisibility(View.GONE);
 	}
 
 	@Override
@@ -176,6 +176,8 @@ public class ScrollScreenLayout extends HorizontalScrollView {
 				if(offset>0){
 					mHandler.post(new Runnable() {
 						public void run() {
+							if(getVisibility()!=View.VISIBLE)
+								setVisibility(View.VISIBLE);
 							int left = getLeft();
 							int top = getTop();
 							int right = getRight();
@@ -251,9 +253,7 @@ public class ScrollScreenLayout extends HorizontalScrollView {
 		int right = getRight();
 		int bottom = getBottom();
 		this.offset = offset;
-		if(right-left>0){
-			layout(offset, top, right+ offset - left, bottom);
-		}
+		layout(offset, top, width*2+ offset, top+height);
 	}
 
 	public void setTags(List<String> tags,List<Drawable> tagLeftBgs,List<Drawable> tagRgihtBgs){
