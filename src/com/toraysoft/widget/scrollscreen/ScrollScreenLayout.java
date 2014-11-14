@@ -418,4 +418,10 @@ public class ScrollScreenLayout extends HorizontalScrollView {
 		random = null;
 		return sequence;
 	}
+	
+	public void reset(){
+		if(timer!=null){
+			timer.cancel();
+		}
+	}
 }
