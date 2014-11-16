@@ -45,7 +45,7 @@ public class ScrollScreenLayout extends HorizontalScrollView {
 	List<Drawable> tagLeftBgs;
 	List<Drawable> tagRightBgs;
 	
-	int offset;
+//	int offset;
 
 	public ScrollScreenLayout(Context context) {
 		super(context);
@@ -85,10 +85,10 @@ public class ScrollScreenLayout extends HorizontalScrollView {
 				LinearLayout.LayoutParams.WRAP_CONTENT));
 		mRightLinearLayout.setGravity(Gravity.CENTER_VERTICAL);
 		mRightLinearLayout.setOrientation(LinearLayout.VERTICAL);
-		mCurrentLinearLayout = mLeftLinearLayout;
+		mCurrentLinearLayout = mRightLinearLayout;
 		addView(mLinearLayout);
-		mLinearLayout.addView(mLeftLinearLayout);
 		mLinearLayout.addView(mRightLinearLayout);
+		mLinearLayout.addView(mLeftLinearLayout);
 
 		tv_left1 = new TextView(getContext());
 		tv_left2 = new TextView(getContext());
@@ -155,7 +155,7 @@ public class ScrollScreenLayout extends HorizontalScrollView {
 		mRightLinearLayout.addView(tv_right4);
 		mRightLinearLayout.addView(tv_right5);
 		
-		setVisibility(View.GONE);
+//		setVisibility(View.GONE);
 	}
 
 	@Override
@@ -173,20 +173,20 @@ public class ScrollScreenLayout extends HorizontalScrollView {
 		@Override
 		public void run() {
 			if (width > 0) {
-				if(offset>0){
-					mHandler.post(new Runnable() {
-						public void run() {
-							if(getVisibility()!=View.VISIBLE)
-								setVisibility(View.VISIBLE);
-							int left = getLeft();
-							int top = getTop();
-							int right = getRight();
-							int bottom = getBottom();
-							layout(offset, top, right - left +offset, bottom);
-						}
-					});
-					offset--;
-				}else{
+//				if(offset>0){
+//					mHandler.post(new Runnable() {
+//						public void run() {
+//							if(getVisibility()!=View.VISIBLE)
+//								setVisibility(View.VISIBLE);
+//							int left = getLeft();
+//							int top = getTop();
+//							int right = getRight();
+//							int bottom = getBottom();
+//							layout(offset, top, right - left +offset, bottom);
+//						}
+//					});
+//					offset--;
+//				}else{
 					x++;
 					if (x > width) {
 						x = 0;
@@ -198,12 +198,12 @@ public class ScrollScreenLayout extends HorizontalScrollView {
 									mLinearLayout.addView(mRightLinearLayout);
 									mLinearLayout.addView(mLeftLinearLayout);
 									mCurrentLinearLayout = mRightLinearLayout;
-									initTagLeft();
+									initTagLeft(true);
 								} else {
 									mLinearLayout.addView(mLeftLinearLayout);
 									mLinearLayout.addView(mRightLinearLayout);
 									mCurrentLinearLayout = mLeftLinearLayout;
-									initTagRight();
+									initTagRight(true);
 								}
 								scrollTo(0, 0);
 								timer = new Timer();
@@ -213,7 +213,7 @@ public class ScrollScreenLayout extends HorizontalScrollView {
 						return;
 					}
 					scrollTo(x, 0);
-				}
+//				}
 			}
 
 		}
@@ -244,25 +244,25 @@ public class ScrollScreenLayout extends HorizontalScrollView {
 				height));
 		mRightLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(width,
 				height));
-		setMarginOffset(width);
+//		setMarginOffset(width);
 	}
 	
-	void setMarginOffset(int offset){
-		int left = getLeft();
-		int top = getTop();
-		int right = getRight();
-		int bottom = getBottom();
-		this.offset = offset;
-		layout(offset, top, width*2+ offset, top+height);
-	}
+//	void setMarginOffset(int offset){
+//		int left = getLeft();
+//		int top = getTop();
+//		int right = getRight();
+//		int bottom = getBottom();
+//		this.offset = offset;
+//		layout(offset, top, width*2+ offset, top+height);
+//	}
 
 	public void setTags(List<String> tags,List<Drawable> tagLeftBgs,List<Drawable> tagRgihtBgs){
 		this.tags = tags;
 		this.tagLeftBgs = tagLeftBgs;
 		this.tagRightBgs = tagRgihtBgs;
 		x = 0;
-		initTagLeft();
-		initTagRight();
+		initTagRight(false);
+		initTagLeft(true);
 		if(timer!=null){
 			timer.cancel();
 		}
@@ -319,7 +319,16 @@ public class ScrollScreenLayout extends HorizontalScrollView {
 		return null;
 	}
 	
-	public void initTagLeft(){
+	public void initTagLeft(boolean isVisible){
+		if(isVisible){
+			if(mLeftLinearLayout.getVisibility()!=View.VISIBLE){
+				mLeftLinearLayout.setVisibility(View.VISIBLE);
+			}
+		}else{
+			if(mLeftLinearLayout.getVisibility()==View.VISIBLE){
+				mLeftLinearLayout.setVisibility(View.INVISIBLE);
+			}
+		}
 		int[] tagIndexs = getSequence(5);
 		int[] tagBgIndexs = getSequence(6);
 		int[] leftMargins = getSequence(50);
@@ -345,7 +354,16 @@ public class ScrollScreenLayout extends HorizontalScrollView {
 		}
 	}
 	
-	public void initTagRight(){
+	public void initTagRight(boolean isVisible){
+		if(isVisible){
+			if(mRightLinearLayout.getVisibility()!=View.VISIBLE){
+				mRightLinearLayout.setVisibility(View.VISIBLE);
+			}
+		}else{
+			if(mRightLinearLayout.getVisibility()==View.VISIBLE){
+				mRightLinearLayout.setVisibility(View.INVISIBLE);
+			}
+		}
 		int[] tagIndexs = getSequence(5);
 		int[] tagBgIndexs = getSequence(6);
 		int[] leftMargins = getSequence(50);
