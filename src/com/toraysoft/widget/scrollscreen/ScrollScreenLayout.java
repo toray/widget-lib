@@ -6,6 +6,8 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.rockerhieu.emojicon.EmojiconTextView;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -90,16 +92,16 @@ public class ScrollScreenLayout extends HorizontalScrollView {
 		mLinearLayout.addView(mRightLinearLayout);
 		mLinearLayout.addView(mLeftLinearLayout);
 
-		tv_left1 = new TextView(getContext());
-		tv_left2 = new TextView(getContext());
-		tv_left3 = new TextView(getContext());
-		tv_left4 = new TextView(getContext());
-		tv_left5 = new TextView(getContext());
-		tv_right1 = new TextView(getContext());
-		tv_right2 = new TextView(getContext());
-		tv_right3 = new TextView(getContext());
-		tv_right4 = new TextView(getContext());
-		tv_right5 = new TextView(getContext());
+		tv_left1 = new EmojiconTextView(getContext());
+		tv_left2 = new EmojiconTextView(getContext());
+		tv_left3 = new EmojiconTextView(getContext());
+		tv_left4 = new EmojiconTextView(getContext());
+		tv_left5 = new EmojiconTextView(getContext());
+		tv_right1 = new EmojiconTextView(getContext());
+		tv_right2 = new EmojiconTextView(getContext());
+		tv_right3 = new EmojiconTextView(getContext());
+		tv_right4 = new EmojiconTextView(getContext());
+		tv_right5 = new EmojiconTextView(getContext());
 
 		tv_left1.setLayoutParams(new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT,
