@@ -55,9 +55,9 @@
         <attr name="use_default_controller" format="boolean" />
     </declare-styleable>
 	<declare-styleable name="SpeechButton">
-        <attr name="textDefault" format="reference" />
-        <attr name="textSelect" format="reference" />
-        <attr name="textCancel" format="reference" />
+        <attr name="textDefault" format="reference|string" />
+        <attr name="textSelect" format="reference|string" />
+        <attr name="textCancel" format="reference|string" />
     </declare-styleable>
     <declare-styleable name="LocusPassWordView">
         <attr name="locusOriginal" format="reference|color" />
