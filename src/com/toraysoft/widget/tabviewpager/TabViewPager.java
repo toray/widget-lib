@@ -44,6 +44,12 @@ public class TabViewPager extends LinearLayout implements
 		});
 	}
 	
+	public void resetLabels(String[] tabs){
+		if(mTabView!=null){
+			mTabView.resetLabels(tabs);
+		}
+	}
+	
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();

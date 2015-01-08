@@ -62,6 +62,7 @@ public class TabView extends LinearLayout implements OnClickListener {
 		tabBackground = typedArray.getColor(
 				R.styleable.TabView_tabItemBackground,
 				Color.parseColor("#00000000"));
+		setBackgroundColor(tabBackground);
 		typedArray.recycle();
 	}
 
@@ -81,6 +82,16 @@ public class TabView extends LinearLayout implements OnClickListener {
 		count = tabs.length;
 		setLabels();
 		setUnderLine();
+	}
+	
+	void resetLabels(String[] tabs){
+		if(layout_tabs!=null && layout_tabs.getChildCount()>0){
+			this.tabs = tabs;
+			for (int i = 0; i < tabs.length; i++) {
+				TextView textview = (TextView) layout_tabs.getChildAt(i);
+				textview.setText(tabs[i]);
+			}
+		}
 	}
 	
 	private void setLabels() {

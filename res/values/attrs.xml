@@ -148,7 +148,12 @@
             <enum name="invisible" value="1" />
         </attr>
     </declare-styleable>
-	<declare-styleable name="Themes">
-        <attr name="numberProgressBarStyle" format="reference"/>
+    <declare-styleable name="Themes">
+        <attr name="numberProgressBarStyle" format="reference" />
     </declare-styleable>
+    <declare-styleable name="TabIconView">
+        <attr name="iconSrc" format="reference" />
+        <attr name="iconWidth" format="dimension"></attr>
+    </declare-styleable>
+
 </resources>
