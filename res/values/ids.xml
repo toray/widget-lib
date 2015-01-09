@@ -9,5 +9,7 @@
     <item name="tabview" type="id">false</item>
     <item name="viewpager" type="id">false</item>
     <item name="viptextviewstroke" type="id">false</item>
+    <item name="drag_handle" type="id"/>
+    <item name="click_remove" type="id"/>
 
 </resources>
