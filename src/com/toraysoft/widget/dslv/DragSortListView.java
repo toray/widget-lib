@@ -31,6 +31,7 @@ import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
@@ -823,9 +824,14 @@ public class DragSortListView extends ListView {
             // Log.d("mobeta", "clip rect bounds: " + canvas.getClipBounds());
             canvas.translate(mFloatLoc.x, mFloatLoc.y);
             canvas.clipRect(0, 0, w, h);
+            Paint mPaint = new Paint();
+            mPaint.setColor(Color.BLACK);
+            canvas.drawLine(0, 0, w, 0, mPaint);
+            canvas.drawLine(0, h-1, w, h-1, mPaint);
 
             // Log.d("mobeta", "clip rect bounds: " + canvas.getClipBounds());
             canvas.saveLayerAlpha(0, 0, w, h, alpha, Canvas.ALL_SAVE_FLAG);
+            mFloatView.setBackgroundColor(Color.WHITE);
             mFloatView.draw(canvas);
             canvas.restore();
             canvas.restore();
