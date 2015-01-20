@@ -37,6 +37,11 @@ public class TabIconView extends LinearLayout {
 	public void setTabs(int count) {
 		removeAllViews();
 		this.count = count;
+		if(count<=1){
+			setVisibility(GONE);
+		}else{
+			setVisibility(VISIBLE);
+		}
 		for (int i = 0; i < count; i++) {
 			LinearLayout parent = new LinearLayout(getContext());
 			ImageView iv = new ImageView(getContext());
