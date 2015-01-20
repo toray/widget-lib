@@ -38,6 +38,12 @@ public class ViewPagerTabIcon extends RelativeLayout implements OnPageChangeList
 		});
 	}
 	
+	public void setSelectPager(int position){
+		if(mViewPager!=null){
+			mViewPager.setCurrentItem(position);
+		}
+	}
+	
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
