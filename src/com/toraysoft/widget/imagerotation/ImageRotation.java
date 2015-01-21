@@ -1,7 +1,5 @@
 package com.toraysoft.widget.imagerotation;
 
-import org.json.JSONArray;
-
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -18,7 +16,8 @@ public class ImageRotation extends RelativeLayout {
 	int[] resources;
 	boolean isAnim;
 	int index = 0;
-	Animation mAnimation;
+	Animation mAnimationShow;
+	Animation mAnimationHide;
 	Handler mHandler = new Handler();
 	AnimTask mAnimTask;
 
@@ -49,6 +48,11 @@ public class ImageRotation extends RelativeLayout {
 		
 		mAnimTask = new AnimTask();
 		
+		mAnimationShow = new AlphaAnimation(0f, 1f);
+		mAnimationShow.setDuration(800);
+		mAnimationHide = new AlphaAnimation(1f, 0f);
+		mAnimationHide.setDuration(800);
+		
 		iv_anim.setVisibility(View.GONE);
 	}
 
@@ -59,12 +63,12 @@ public class ImageRotation extends RelativeLayout {
 		}
 	}
 	
-	public void setAnimation(Animation animation){
-		this.mAnimation = animation;
-	}
+//	public void setAnimation(Animation animation){
+//		this.mAnimation = animation;
+//	}
 	
 	public void start(){
-		if(resources==null || resources.length<1 || mAnimation==null || isAnim){
+		if(resources==null || resources.length<1 || isAnim){
 			return;
 		}
 		isAnim = true;
@@ -92,7 +96,7 @@ public class ImageRotation extends RelativeLayout {
 			}
 			index++;
 			if(index>=resources.length){
-				index = 0;
+				index = 1;
 			}
 			int resId = resources[index];
 			doAnim(resId);
@@ -101,18 +105,31 @@ public class ImageRotation extends RelativeLayout {
 		public void doAnim(final int resId){
 			iv_anim.setVisibility(View.VISIBLE);
 			iv_anim.setImageResource(resId);
-			iv_anim.startAnimation(mAnimation);
-			long duration = mAnimation.getDuration();
+			iv_anim.startAnimation(mAnimationShow);
+			long durationShow = mAnimationShow.getDuration();
+			long durationHide = mAnimationHide.getDuration();
+			long duration = durationShow+durationHide;
+			new Handler().postDelayed(new Runnable() {
+				
+				@Override
+				public void run() {
+					if(isAnim){
+						iv_anim.clearAnimation();
+						iv_anim.startAnimation(mAnimationHide);
+					}
+				}
+			}, durationShow);
+			
 			new Handler().postDelayed(new Runnable() {
 				
 				@Override
 				public void run() {
 					if(isAnim){
 						iv_anim.setVisibility(View.GONE);
-						iv_default.setImageResource(resId);
 					}
 				}
 			}, duration);
+			
 			if(isAnim){
 				mHandler.postDelayed(this, duration);
 			}
