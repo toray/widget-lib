@@ -38,7 +38,7 @@ public class TabIconView extends LinearLayout {
 		removeAllViews();
 		this.count = count;
 		if(count<=1){
-			setVisibility(GONE);
+			setVisibility(INVISIBLE);
 		}else{
 			setVisibility(VISIBLE);
 		}

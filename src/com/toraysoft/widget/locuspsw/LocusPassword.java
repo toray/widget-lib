@@ -33,6 +33,8 @@ public class LocusPassword extends View {
 
 	OnLocusDrawListener mOnLocusDrawListener;
 	OnLocusCompleteListener mLocusCompleteListener;
+	
+	public final static int ERRNO_TOO_SHORT = 5001;
 
 	public LocusPassword(Context context) {
 		super(context);
@@ -171,7 +173,7 @@ public class LocusPassword extends View {
 			if (this.sPoints.size() < pswMinLength
 					&& this.sPoints.size() > 0) {
 				if (mLocusCompleteListener != null) {
-					mLocusCompleteListener.onLocusError("密码太短,请重新输入");
+					mLocusCompleteListener.onLocusError(ERRNO_TOO_SHORT);
 				}
 			} else if (mLocusCompleteListener != null) {
 				if (this.sPoints.size() >= pswMinLength) {
@@ -418,7 +420,7 @@ public class LocusPassword extends View {
 		 */
 		public void onLocusComplete(String password);
 
-		public void onLocusError(String msg);
+		public void onLocusError(int errno);
 		
 		public void onLocusStart();
 		
