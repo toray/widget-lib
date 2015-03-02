@@ -46,6 +46,7 @@ public class CustomImageGallery extends LinearLayout implements
 	}
 
 	private void init() {
+		removeAllViews();
 		mCustomHorizontalScrollView = new CustomHorizontalScrollView(mContext);
 		mPageIndicatorView = new PageIndicatorView(mContext);
 		mLinearLayout = new LinearLayout(mContext);
