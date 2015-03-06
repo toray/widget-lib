@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -98,7 +99,7 @@ public class LocusPassword extends View {
 			}
 			tt = ((float) h - t) / 2;
 			if(mOnLocusDrawListener!=null)
-				mOnLocusDrawListener.onLocusTop((int)(tt-pointPadding));
+				mOnLocusDrawListener.onLocusTop((int)(h-tt+pointPadding));
 		}
 		for (int i = 0; i < mPoints.length; i++) {
 			for (int j = 0; j < mPoints[i].length; j++) {
