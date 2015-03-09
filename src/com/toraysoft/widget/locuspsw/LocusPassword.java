@@ -99,7 +99,7 @@ public class LocusPassword extends View {
 			}
 			tt = ((float) h - t) / 2;
 			if(mOnLocusDrawListener!=null)
-				mOnLocusDrawListener.onLocusTop((int)(h-tt+pointPadding));
+				mOnLocusDrawListener.onLocusTop((int)(h-tt+pointPadding/2));
 		}
 		for (int i = 0; i < mPoints.length; i++) {
 			for (int j = 0; j < mPoints[i].length; j++) {
