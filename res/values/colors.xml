@@ -3,5 +3,12 @@
 
     <color name="black">#ff000000</color>
 	<color name="white">#ffffffff</color>
+	
+	<!-- ImageSelector color -->
+	<color name="imageselector_color_transparent">#00000000</color>
+	<color name="imageselector_color_transparent_half">#80000000</color>
+	<color name="imageselector_color_black_first">#323232</color>
+	<color name="imageselector_color_black_two">#696969</color>
+	<!-- ImageSelector color end -->
     
 </resources>
