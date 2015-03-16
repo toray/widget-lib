@@ -10,5 +10,18 @@
     <string name="drop_up">上拉可以加载更多\n</string>
     <string name="release_loadmore">松开可以加载更多\n</string>
     <!-- Refresh string end -->
+    
+    <!-- ImageSelector string -->
+    <string name="imageselector_text_page">张</string>
+    <string name="imageselector_text_load_fail">加载图片失败了...</string>
+    <string name="imageselector_text_no_sdcard">暂无外部存储</string>
+    <string name="imageselector_text_loading">正在加载...</string>
+    <string name="imageselector_text_choice_pic">请选择图片！</string>
+    <string name="imageselector_text_current_path">当前路径 </string>
+    <string name="imageselector_text_path_tips">当前路径 /所有图片</string>
+    <string name="imageselector_text_count_tips">0张</string>
+    <string name="imageselector_text_all_pic">所有图片</string>
+    <string name="imageselector_btn_upload">上传</string>
+    <!-- ImageSelector string end -->
 
 </resources>
