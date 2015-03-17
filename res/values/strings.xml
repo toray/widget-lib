@@ -21,7 +21,7 @@
     <string name="imageselector_text_path_tips">当前路径 /所有图片</string>
     <string name="imageselector_text_count_tips">0张</string>
     <string name="imageselector_text_all_pic">所有图片</string>
-    <string name="imageselector_btn_upload">上传</string>
+    <string name="imageselector_btn_upload">选择</string>
     <!-- ImageSelector string end -->
 
 </resources>
