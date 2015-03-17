@@ -48,6 +48,7 @@ public class ImageSelectorAdapter extends CommonAdapter<String> {
 		final ImageView mSelect = helper.getView(R.id.id_item_select);
 		mSelect.setImageResource(R.drawable.imageselector_icon_pictures_selected);
 		mSelect.setVisibility(View.INVISIBLE);
+		final String imagePath = mDirPath + "/" + item;
 
 		// 设置ImageView的点击事件
 		mImageView.setOnClickListener(new OnClickListener() {
@@ -59,23 +60,23 @@ public class ImageSelectorAdapter extends CommonAdapter<String> {
 						iv_last.setVisibility(View.INVISIBLE);
 					}
 					iv_last = mSelect;
-					if (mSelectedImage.contains(item)) {
+					if (mSelectedImage.contains(imagePath)) {
 						mSelectedImage.clear();
 						mSelect.setVisibility(View.INVISIBLE);
 					} else {
 						mSelectedImage.clear();
-						mSelectedImage.add(item);
+						mSelectedImage.add(imagePath);
 						mSelect.setVisibility(View.VISIBLE);
 					}
 				} else {
 					if (iv_last != mSelect) {
 						iv_last = mSelect;
 					}
-					if (mSelectedImage.contains(item)) {
-						mSelectedImage.remove(item);
+					if (mSelectedImage.contains(imagePath)) {
+						mSelectedImage.remove(imagePath);
 						mSelect.setVisibility(View.INVISIBLE);
 					} else {
-						mSelectedImage.add(item);
+						mSelectedImage.add(imagePath);
 						mSelect.setVisibility(View.VISIBLE);
 					}
 				}

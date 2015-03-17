@@ -79,6 +79,9 @@ public class ImageSelector extends Fragment implements OnImageDirSelected {
 	private OnImageSelectorListener mOnImageSelectorListener;
 	private boolean isMuti;
 	
+	public ImageSelector() {
+	}
+	
 	public ImageSelector(boolean isMuti) {
 		this.isMuti = isMuti;
 	}
