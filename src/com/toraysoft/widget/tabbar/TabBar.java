@@ -47,7 +47,7 @@ public class TabBar extends LinearLayout implements OnClickListener,OnPageChange
 	public void onClick(View v) {
 		if (v.getTag() != null && v.getTag() instanceof TabItem) {
 			TabItem item = (TabItem) v.getTag();
-			if(item.isTab){
+			if(item.isTab && mViewPager!=null){
 				mViewPager.setCurrentItem(item.index);
 			}
 			if(mOnTabItemSelectListener!=null)
@@ -81,7 +81,7 @@ public class TabBar extends LinearLayout implements OnClickListener,OnPageChange
 		View child = LayoutInflater.from(getContext())
 				.inflate(childResID, null);
 		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.WRAP_CONTENT);
+				LayoutParams.MATCH_PARENT);
 		lp.weight = 1;
 		child.setLayoutParams(lp);
 		child.setTag(item);
