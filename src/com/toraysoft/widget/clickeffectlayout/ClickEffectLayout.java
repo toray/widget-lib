@@ -27,11 +27,13 @@ public class ClickEffectLayout extends LinearLayout {
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		requestDisallowInterceptTouchEvent(true);
-		if (ev.getAction() == MotionEvent.ACTION_DOWN
-				|| ev.getAction() == MotionEvent.ACTION_MOVE) {
-			setAlpha(0.5f);
-		} else {
-			setAlpha(1);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			if (ev.getAction() == MotionEvent.ACTION_DOWN
+					|| ev.getAction() == MotionEvent.ACTION_MOVE) {
+				setAlpha(0.5f);
+			} else {
+				setAlpha(1);
+			}
 		}
 		return super.dispatchTouchEvent(ev);
 	}
@@ -39,11 +41,13 @@ public class ClickEffectLayout extends LinearLayout {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_DOWN
-				|| event.getAction() == MotionEvent.ACTION_MOVE) {
-			setAlpha(0.5f);
-		} else {
-			setAlpha(1);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			if (event.getAction() == MotionEvent.ACTION_DOWN
+					|| event.getAction() == MotionEvent.ACTION_MOVE) {
+				setAlpha(0.5f);
+			} else {
+				setAlpha(1);
+			}
 		}
 		return super.onTouchEvent(event);
 	}
@@ -51,11 +55,13 @@ public class ClickEffectLayout extends LinearLayout {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		if (ev.getAction() == MotionEvent.ACTION_DOWN
-				|| ev.getAction() == MotionEvent.ACTION_MOVE) {
-			setAlpha(0.5f);
-		} else {
-			setAlpha(1);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			if (ev.getAction() == MotionEvent.ACTION_DOWN
+					|| ev.getAction() == MotionEvent.ACTION_MOVE) {
+				setAlpha(0.5f);
+			} else {
+				setAlpha(1);
+			}
 		}
 		return super.onInterceptTouchEvent(ev);
 	}
