@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 public class ImageViewPager extends RelativeLayout implements
 		OnPageChangeListener {
 
-	private ViewPager mViewPager;
+	private CustomViewPager mViewPager;
 	private PageIndicatorView mPageIndicatorView;
 	private List<View> views;
 	private ImagePageAdapter mImagePageAdapter;
@@ -33,7 +33,7 @@ public class ImageViewPager extends RelativeLayout implements
 
 	public void initViews(List<View> views) {
 		this.views = views;
-		mViewPager = new ViewPager(getContext());
+		mViewPager = new CustomViewPager(getContext());
 		mImagePageAdapter = new ImagePageAdapter();
 		mViewPager.setAdapter(mImagePageAdapter);
 		mViewPager.setOnPageChangeListener(this);
@@ -93,5 +93,5 @@ public class ImageViewPager extends RelativeLayout implements
 			mPageIndicatorView.setCurrentPage(true, pos);
 		}
 	}
-
+	
 }
