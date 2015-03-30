@@ -46,6 +46,45 @@ public abstract class BaseGroupAdapter extends BaseAdapter {
 		return size;
 	}
 
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		int groupPosition = -1;
+		int childPosition = -1;
+		int size = 0;
+		for (int i = 0; i < getGroupCount(); i++) {
+			int lastSize = size;
+			int count = getChildrenCount(i);
+			size += count;
+			if (isGroupViewShow(i) && count > 0) {
+				size += 1;
+			}
+			if (position == lastSize) {
+				if (count == 0) {
+					continue;
+				}
+				groupPosition = i;
+				if (!isGroupViewShow(i)) {
+					childPosition = 0;
+				}
+				break;
+			} else if (position < size) {
+				groupPosition = i;
+				childPosition = position - lastSize;
+				if (isGroupViewShow(i)) {
+					childPosition -= 1;
+				}
+				break;
+			}
+		}
+		if (childPosition == -1) {
+			View view = getGroupView(groupPosition, convertView, parent);
+			return view;
+		} else {
+			return getChildView(groupPosition, childPosition, convertView,
+					parent);
+		}
+	}
+
 	protected boolean isGroupViewShow(int position) {
 		return true;
 	}
