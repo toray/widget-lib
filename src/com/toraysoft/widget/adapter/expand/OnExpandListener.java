@@ -1,4 +1,4 @@
-package com.toraysoft.widget.expand;
+package com.toraysoft.widget.adapter.expand;
 
 public interface OnExpandListener {
 	void onExpandFinish();

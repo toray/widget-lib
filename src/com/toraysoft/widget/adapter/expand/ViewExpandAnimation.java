@@ -1,4 +1,4 @@
-package com.toraysoft.widget.expand;
+package com.toraysoft.widget.adapter.expand;
 
 import android.os.Handler;
 import android.view.View;
