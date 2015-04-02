@@ -3,19 +3,19 @@ package com.toraysoft.widget.imageviewpager;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-public class ImageViewPager extends RelativeLayout implements
-		OnPageChangeListener {
+public class ImageViewPager extends RelativeLayout {
 
-	private CustomViewPager mViewPager;
-	private PageIndicatorView mPageIndicatorView;
+	private AutoScrollViewPager mViewPager;
+	private PageIndicatorLayout mPageIndicatorLayout;
 	private List<View> views;
 	private ImagePageAdapter mImagePageAdapter;
 
@@ -33,15 +33,40 @@ public class ImageViewPager extends RelativeLayout implements
 
 	public void initViews(List<View> views) {
 		this.views = views;
-		mViewPager = new CustomViewPager(getContext());
+		mViewPager = new AutoScrollViewPager(getContext());
 		mImagePageAdapter = new ImagePageAdapter();
 		mViewPager.setAdapter(mImagePageAdapter);
-		mViewPager.setOnPageChangeListener(this);
-		mPageIndicatorView = new PageIndicatorView(getContext());
-		mPageIndicatorView.setTotalPage(views.size());
-		mPageIndicatorView.setCurrentPage(true, 0);
+		mPageIndicatorLayout = new PageIndicatorLayout(getContext());
+		LayoutParams mLayoutParams = new LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		mLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		mLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+		mLayoutParams.bottomMargin = (int) TypedValue.applyDimension(
+				TypedValue.COMPLEX_UNIT_DIP, 5, getContext().getResources()
+						.getDisplayMetrics());
+		mPageIndicatorLayout.setLayoutParams(mLayoutParams);
+		mPageIndicatorLayout.setViewPager(mViewPager);
 		this.addView(mViewPager);
-		this.addView(mPageIndicatorView);
+		this.addView(mPageIndicatorLayout);
+	}
+
+	public void initViews(List<View> views,
+			PageIndicatorLayout mPageIndicatorLayout) {
+		this.views = views;
+		mViewPager = new AutoScrollViewPager(getContext());
+		mImagePageAdapter = new ImagePageAdapter();
+		mViewPager.setAdapter(mImagePageAdapter);
+		this.mPageIndicatorLayout = mPageIndicatorLayout;
+		mPageIndicatorLayout.setViewPager(mViewPager);
+		if (mPageIndicatorLayout != null) {
+			mPageIndicatorLayout.setTotalPage(views.size());
+			mPageIndicatorLayout.setCurrentPage(true, 0);
+		}
+		this.addView(mViewPager);
+	}
+
+	public AutoScrollViewPager getAutoScrollViewPager() {
+		return mViewPager;
 	}
 
 	class ImagePageAdapter extends PagerAdapter {
@@ -51,7 +76,7 @@ public class ImageViewPager extends RelativeLayout implements
 
 		@Override
 		public int getCount() {
-			return views.size();
+			return views == null ? 0 : views.size();
 		}
 
 		@Override
@@ -72,26 +97,13 @@ public class ImageViewPager extends RelativeLayout implements
 
 	}
 
-	@Override
-	public void onPageScrollStateChanged(int arg0) {
-
-	}
-
-	@Override
-	public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-	}
-
-	@Override
-	public void onPageSelected(int arg0) {
-		mPageIndicatorView.setCurrentPage(false, arg0);
-	}
-
 	public void setPagePosition(int pos) {
 		if (pos >= 0 && pos < views.size()) {
-			mViewPager.setCurrentItem(pos);
-			mPageIndicatorView.setCurrentPage(true, pos);
+			if (mViewPager != null)
+				mViewPager.setCurrentItem(pos);
+			if (mPageIndicatorLayout != null)
+				mPageIndicatorLayout.setCurrentPage(true, pos);
 		}
 	}
-	
+
 }
