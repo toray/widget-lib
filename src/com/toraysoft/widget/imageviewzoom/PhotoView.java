@@ -20,6 +20,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 
 import com.toraysoft.widget.imageviewzoom.PhotoViewAttacher.OnMatrixChangedListener;
@@ -175,5 +176,5 @@ public class PhotoView extends ImageView implements IPhotoView {
 		mAttacher.cleanup();
 		super.onDetachedFromWindow();
 	}
-
+	
 }

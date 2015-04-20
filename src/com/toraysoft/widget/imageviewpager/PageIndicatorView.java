@@ -21,12 +21,28 @@ public class PageIndicatorView extends View {
 	private int colorDefault = Color.parseColor("#e2e2e2");
 	private int colorSelect = Color.parseColor("#999999");
 
+	private int iconWidth, iconHeight, space;
+	private int OFFSET = 2, DOT_WIDTH = 8;
+
 	public PageIndicatorView(Context context) {
 		super(context);
+		init();
 	}
 
 	public PageIndicatorView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		init();
+	}
+
+	private void init() {
+		iconWidth = getScaleLength(DOT_WIDTH);
+		iconHeight = getScaleLength(DOT_WIDTH);
+		space = getScaleLength(DOT_WIDTH);
+	}
+
+	public void setColor(int select, int normal) {
+		colorSelect = select;
+		colorDefault = normal;
 	}
 
 	public void setTotalPage(int nPageNum) {
@@ -66,17 +82,13 @@ public class PageIndicatorView extends View {
 
 		Rect r = new Rect();
 		this.getDrawingRect(r);
-
-		int iconWidth = getScaleLength(10);
-		int iconHeight = getScaleLength(10);
-		int space = getScaleLength(10);
-
+		
 		int x = (r.width() - (iconWidth * mTotalPage + space * (mTotalPage - 1))) / 2;
-		// int y = r.height() - (r.height() - iconHeight) / 6;
-		int y = r.height() - iconHeight * 2;
+//		System.out.println("---------x:" + x);
+		int y = iconHeight / 2 + OFFSET;
+//		System.out.println("---------y:" + y);
 
 		for (int i = 0; i < mTotalPage; i++) {
-
 			paint.setColor(colorDefault);
 
 			if (i == mCurrentPage) {
@@ -85,16 +97,21 @@ public class PageIndicatorView extends View {
 
 			Rect r1 = new Rect();
 			r1.left = x;
+//			System.out.println("----------r1.left:"+r1.left);
 			r1.top = y;
+//			System.out.println("----------r1.top:"+r1.top);
 			r1.right = x + iconWidth;
+//			System.out.println("----------r1.right:"+r1.right);
 			r1.bottom = y + iconHeight;
+//			System.out.println("----------r1.bottom:"+r1.bottom);
 			float radius = iconWidth / 2;
+//			System.out.println("----------radius:"+radius);
 
 			canvas.drawColor(Color.TRANSPARENT);
 			canvas.drawCircle(x, y, radius, paint);
 
 			x += iconWidth + space;
-
+			
 		}
 
 	}
@@ -110,6 +127,10 @@ public class PageIndicatorView extends View {
 
 	public int getScaleLength(int length) {
 		return length * getScreenWidth() / screenWidthDefault;
+	}
+
+	public int getIndicatorHeight() {
+		return iconHeight + OFFSET * 2;
 	}
 
 }

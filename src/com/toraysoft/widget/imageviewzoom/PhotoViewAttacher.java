@@ -15,11 +15,14 @@
  *******************************************************************************/
 package com.toraysoft.widget.imageviewzoom;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.Matrix.ScaleToFit;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -30,6 +33,8 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 import java.lang.ref.WeakReference;
+
+import com.toraysoft.widget.dslv.DragSortListView.RemoveListener;
 
 public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, VersionedGestureDetector.OnGestureListener,
 		GestureDetector.OnDoubleTapListener, ViewTreeObserver.OnGlobalLayoutListener {
@@ -174,20 +179,57 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 	 * {@link android.view.View#onDetachedFromWindow()} or from {@link android.app.Activity#onDestroy()}.
 	 * This is automatically called if you are using {@link uk.co.senab.photoview.PhotoView}.
 	 */
+	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public final void cleanup() {
-		if (null != mImageView) {
-			mImageView.get().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+		if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN) {
+			if (null != mImageView) {
+				mImageView.get().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+			}
+			
+			if (null != mViewTreeObserver && mViewTreeObserver.isAlive()) {
+				mViewTreeObserver.removeGlobalOnLayoutListener(this);
+				mViewTreeObserver = null;
+				
+				// Clear listeners too
+				mMatrixChangeListener = null;
+				mPhotoTapListener = null;
+				mViewTapListener = null;
+				// Finally, clear ImageView
+				mImageView = null;
+			}
+		} else {
+			if (null != mImageView) {
+				mImageView.get().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+			}
+			
+			if (null != mViewTreeObserver && mViewTreeObserver.isAlive()) {
+				 mViewTreeObserver.removeGlobalOnLayoutListener(this);
+				 mViewTreeObserver.removeGlobalOnLayoutListener(this);
+
+				 mViewTreeObserver = null;
+
+				 // Clear listeners too
+				 mMatrixChangeListener = null;
+				 mPhotoTapListener = null;
+				 mViewTapListener = null;
+				 // Finally, clear ImageView
+				 mImageView = null;
+			}
 		}
-		mViewTreeObserver = null;
-
-		// Clear listeners too
-		mMatrixChangeListener = null;
-		mPhotoTapListener = null;
-		mViewTapListener = null;
-
-		// Finally, clear ImageView
-		mImageView = null;
+		
+//		if (null != mImageView) {
+//			mImageView.get().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//		}
+//		mViewTreeObserver = null;
+//
+//		// Clear listeners too
+//		mMatrixChangeListener = null;
+//		mPhotoTapListener = null;
+//		mViewTapListener = null;
+//
+//		// Finally, clear ImageView
+//		mImageView = null;
 	}
 
 	@Override
