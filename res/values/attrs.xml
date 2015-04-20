@@ -9,6 +9,7 @@
         <attr name="tabItemBackground" format="reference|color" />
         <attr name="tabItemLineHeight" format="dimension" />
         <attr name="tabItemTextPadding" format="dimension" />
+        <attr name="tabItemLineWidth" format="dimension" />
     </declare-styleable>
     <declare-styleable name="CustomTabView">
         <attr name="tabTextSize" format="dimension" />
