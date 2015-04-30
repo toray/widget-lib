@@ -8,5 +8,4 @@ public abstract class TabFragmentPagerAdapter extends FragmentStatePagerAdapter 
 	public TabFragmentPagerAdapter(FragmentManager fm) {
 		super(fm);
 	}
-
 }

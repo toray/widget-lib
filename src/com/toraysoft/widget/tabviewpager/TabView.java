@@ -9,6 +9,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,7 +18,7 @@ import com.toraysoft.widget.R;
 public class TabView extends LinearLayout implements OnClickListener {
 
 	LinearLayout layout_tabs, layout_underline;
-	View line_current;
+	LinearLayout line_current;
 	String tabs[];
 	float textSize;
 	float textViewPadding;
@@ -30,6 +31,8 @@ public class TabView extends LinearLayout implements OnClickListener {
 	int width;
 	boolean isDrawLine;
 	int offset;
+	float lineWidth;
+	float lineHeight;
 	
 	OnItemChangeListener mOnItemChangeListener;
 
@@ -59,6 +62,14 @@ public class TabView extends LinearLayout implements OnClickListener {
 				Color.parseColor("#ffdadada"));
 		lineColor = typedArray.getColor(R.styleable.TabView_tabItemLineColor,
 				Color.parseColor("#ff9f3765"));
+		lineWidth = typedArray.getDimension(R.styleable.TabView_tabItemLineWidth, 0);
+		lineHeight = typedArray.getDimension(R.styleable.TabView_tabItemLineHeight, 0);
+		if(lineWidth == 0){
+			lineWidth = LayoutParams.MATCH_PARENT;
+		}
+		if(lineHeight == 0){
+			lineHeight = 2;
+		}
 		tabBackground = typedArray.getColor(
 				R.styleable.TabView_tabItemBackground,
 				Color.parseColor("#00000000"));
@@ -129,11 +140,21 @@ public class TabView extends LinearLayout implements OnClickListener {
 		layout_underline.setLayoutParams(new LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		layout_underline.setOrientation(LinearLayout.VERTICAL);
-		line_current = new View(getContext());
+		line_current = new LinearLayout(getContext());
+		int itemWidth  = width / count;
 		LayoutParams params = new LayoutParams(
-				width / count, 2);
+				itemWidth, LayoutParams.WRAP_CONTENT);
 		line_current.setLayoutParams(params);
-		line_current.setBackgroundColor(lineColor);
+		line_current.setGravity(Gravity.CENTER);
+		View lineChild = new View(getContext());
+		if(itemWidth < lineWidth){
+			lineWidth = itemWidth;
+		}
+		LayoutParams params2 = new LayoutParams(
+				(int)lineWidth, (int)lineHeight);
+		lineChild.setLayoutParams(params2);
+		lineChild.setBackgroundColor(lineColor);
+		line_current.addView(lineChild);
 		layout_underline.addView(line_current);
 
 		View line = new View(getContext());
