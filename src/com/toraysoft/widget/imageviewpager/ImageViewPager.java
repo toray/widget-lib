@@ -90,6 +90,9 @@ public class ImageViewPager extends RelativeLayout {
 
 		@Override
 		public Object instantiateItem(ViewGroup container, int position) {
+			if(views.get(position).getParent() != null) {
+				((ViewGroup)views.get(position).getParent()).removeView(views.get(position));	
+			}
 			((ViewPager) container).addView(views.get(position));
 			return views.get(position);
 		}
