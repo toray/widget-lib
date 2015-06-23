@@ -81,12 +81,10 @@ public class CustomImageGallery extends LinearLayout implements
 		RelativeLayout rl = new RelativeLayout(mContext);
 		View view = new View(mContext);
 		if (position == 0 || position == count - 1) {
-			LayoutParams lp = new LayoutParams(itemWidth / 2,
-					itemHeight);
+			LayoutParams lp = new LayoutParams(itemWidth / 2, itemHeight);
 			rl.setLayoutParams(lp);
 		} else {
-			LayoutParams lp = new LayoutParams(itemWidth,
-					itemHeight);
+			LayoutParams lp = new LayoutParams(itemWidth, itemHeight);
 			rl.setLayoutParams(lp);
 			int loc = position - 1;
 			if (loc < 0) {
@@ -158,7 +156,7 @@ public class CustomImageGallery extends LinearLayout implements
 	}
 
 	public interface OnCustomImageGalleryClickListener {
-		void onCustomImageGalleryClick(int pos);
+		void onCustomImageGalleryClick(CustomImageGallery v, int pos);
 	}
 
 	public void setOnCustomImageGalleryClickListener(
@@ -171,8 +169,8 @@ public class CustomImageGallery extends LinearLayout implements
 		if (v.getTag() != null && mOnCustomImageGalleryClickListener != null) {
 			int pos = (Integer) v.getTag();
 			if (pos > 0) {
-				mOnCustomImageGalleryClickListener
-						.onCustomImageGalleryClick(pos - 1);
+				mOnCustomImageGalleryClickListener.onCustomImageGalleryClick(this,
+						pos - 1);
 			}
 		}
 	}
