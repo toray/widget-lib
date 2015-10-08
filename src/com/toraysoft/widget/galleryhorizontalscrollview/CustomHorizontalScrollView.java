@@ -134,8 +134,7 @@ public class CustomHorizontalScrollView extends HorizontalScrollView implements
 			removeCallbacks(this);
 			if (oldL == lastL) {
 				removeCallbacks(this);
-				System.out
-						.println("after check scroll :position:" + currentPos);
+				System.out.println("after check scroll :position:" + currentPos);
 				postDelayed(new ScrollToCenter(), 50);
 			} else {
 				oldL = lastL;
